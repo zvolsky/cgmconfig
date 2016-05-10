@@ -1,24 +1,22 @@
 # -*- coding: utf-8 -*-
-# this file is released under public domain and you can use without limitations
 
-# -------------------------------------------------------------------------
-# This is a sample controller
-# - index is the default action of any application
-# - user is required for authentication and authorization
-# - download is for downloading files uploaded in the db (does streaming)
-# -------------------------------------------------------------------------
+import os
 
 
 def index():
-    """
-    example action using the internationalization operator T and flash
-    rendered by views/default/index.html or views/generic.html
+    configfile = db(db.configfile).select().first()
+    if not configfile:
+        db.configfile[0] = {}
+        db.commit()
+        configfile = db(db.configfile).select().first()
 
-    if you need a simple wiki simply replace the two lines below with:
-    return auth.wiki()
-    """
-    response.flash = T("Hello World")
-    return dict(message=T('Welcome to web2py!'))
+    form = SQLFORM(db.configfile, configfile.id)
+    if form.process().accepted:
+        pass
+    return dict(form=form)
+
+# JSON.stringify(value)
+
 
 
 def user():

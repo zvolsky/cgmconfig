@@ -388,6 +388,7 @@
 'Stylesheet': 'CSS styly',
 'submit': 'odeslat',
 'Submit': 'Odeslat',
+'Success!': 'Success!',
 'successful': 'úspěšně',
 'Support': 'Podpora',
 'Sure you want to delete this object?': 'Opravdu chcete smazat tento objekt?',
