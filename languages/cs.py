@@ -160,6 +160,7 @@
 'Email and SMS': 'Email a SMS',
 'Enable': 'Odblokovat',
 'enter a number between %(min)g and %(max)g': 'zadejte číslo mezi %(min)g a %(max)g',
+'Enter a number between %(min)g and %(max)g': 'Enter a number between %(min)g and %(max)g',
 'Enter an integer between %(min)g and %(max)g': 'Enter an integer between %(min)g and %(max)g',
 'enter an integer between %(min)g and %(max)g': 'zadejte celé číslo mezi %(min)g a %(max)g',
 'Error': 'Chyba',
