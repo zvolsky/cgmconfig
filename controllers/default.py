@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 
+import datetime
 import os
+
+from gluon.contrib import simplejson
 
 
 def index():
@@ -45,6 +48,7 @@ def nacti2():
     db.configfile.configfile.readable = False
     db.configfile.configfile.writable = False
     db.configfile.cfcontent.readable = True
+    db.configfile.cfcontent.writable = True
 
     form = SQLFORM(db.configfile, configfile.id, submit_button='Pokračovat')
     if form.process().accepted:
@@ -53,24 +57,79 @@ def nacti2():
     return dict(form=form)
 
 def nacti3():
+    def cnvdate(yyyymmdd):
+        return datetime.datetime.strptime('2016-05-20', '%Y-%m-%d').date()
+
     configfile = db(db.configfile).select().first()
     if not configfile or not configfile.cfcontent:
         redirect(URL('nacti'))
 
     form = SQLFORM.factory(
-        Field('baselayers', 'text', writable=False, label='baselayers'),
-        Field('datatypes', 'text', writable=False, label='datatypes'),
-        Field('ekosystemtypes', 'text', writable=False, label='ekosystemtypes'),
-        Field('places', 'text', writable=False, label='data'),
+        Field('baselayers', 'text', label='baselayers'),
+        Field('datatypes', 'text', label='datatypes'),
+        Field('ekosystemtypes', 'text', label='ekosystemtypes'),
+        Field('places', 'text', length=ciselnik.text_size, label='data'),
         hidden=dict(JSONbaselayers='', JSONdatatypes='', JSONekosystemtypes='', JSONplaces=''),
         submit_button='Pokračovat'
     )
     if form.process().accepted:
-        print simplejson.loads(request.vars.JSONbaselayers)
-        print simplejson.loads(request.vars.JSONdatatypes)
-        print simplejson.loads(request.vars.JSONekosystemtypes)
-        print simplejson.loads(request.vars.JSONplaces)
+        for baselayer in simplejson.loads(request.vars.JSONbaselayers):
+            db.baselayers[0] = dict(baselayer=baselayer)
+        for datatype in simplejson.loads(request.vars.JSONdatatypes):
+            tit = datatype['title']
+            db.datatypes[0] = dict(dtid=datatype['id'], dtcs=tit['cs'], dten=tit['en'])
+        for ekosystemtype in simplejson.loads(request.vars.JSONekosystemtypes):
+            tit = ekosystemtype['title']
+            db.ekosystemtypes[0] = dict(etid=ekosystemtype['id'], etcs=tit['cs'], eten=tit['en'])
+        db.commit()
 
+        baselayers = db(db.baselayers).select()
+        baselayers = {baselayer.baselayer: baselayer.id for baselayer in baselayers}
+
+        datatypes = db(db.datatypes).select(db.datatypes.id, db.datatypes.dtid)
+        datatypes = {datatype.dtid: datatype.id for datatype in datatypes}
+
+        ekosystemtypes = db(db.ekosystemtypes).select(db.ekosystemtypes.id, db.ekosystemtypes.etid)
+        ekosystemtypes = {ekosystemtype.etid: ekosystemtype.id for ekosystemtype in ekosystemtypes}
+
+        for place in simplejson.loads(request.vars.JSONplaces):
+            tit = place['title']
+            try:
+                titen = tit.get('en', '')
+                titcs = tit.get('cs', titen)
+            except:
+                titen = ''
+                titcs = tit
+            extent = place['extent']
+            places_id = db.places.insert(baselayers_id=baselayers[place['baseLayer']],
+                        ptitlecs=titcs, ptitleen=titen,
+                        pextentl=extent[0], pextentb=extent[1], pextentr=extent[2], pextentt=extent[3])
+            for campaign in place['campaigns']:
+                daterange = campaign['dateRange']
+                try:
+                    date0 = cnvdate(daterange[0])
+                    date1 = cnvdate(daterange[1])
+                except:
+                    date0 = cnvdate(daterange)
+                    date1 = None
+                campaigns_id = db.campaigns.insert(places_id=places_id,
+                        cdaterange=date0, cdaterange2=date1)
+                for dataset in campaign['datasets']:
+                    tit = dataset['title']
+                    try:
+                        titen = tit.get('en', '')
+                        titcs = tit.get('cs', titen)
+                    except:
+                        titen = ''
+                        titcs = tit
+                    ddate = dataset['date']
+                    db.datasets.insert(campaigns_id=campaigns_id,
+                            dtitlecs=titcs, dtitleen=titen,
+                            ddate=datetime.datetime.strptime(ddate[:16], '%Y-%m-%d %H:%M'), ddatetz=ddate[16:] or 'Z',
+                            datatypes_id=[datatypes[datatype] for datatype in dataset['dataTypes']],
+                            ekosystemtypes_id=[ekosystemtypes[ekosystemtype] for ekosystemtype in dataset['ekosystemTypes']])
+
+        #db(db.configfile).update(cfparsed_ok=True)
         redirect(URL('nastav'))
 
     return dict(js=configfile.cfcontent, form=form)

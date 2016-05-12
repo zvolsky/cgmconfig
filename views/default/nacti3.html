@@ -1,20 +1,22 @@
 {{extend 'layout.html'}}
 
-<script>debugger;
-{{=XML(js)}}</script>
-
-<script>
-    alert(cg.config.baseLayers);
-    alert(JSON.stringify(cg.config.baseLayers));
-
-    JSONbaselayers = JSON.stringify(cg.config.baseLayers);
-    JSONdatatypes = JSON.stringify(cg.config.dataTypes);
-    JSONekosystemtypes = JSON.stringify(cg.config.ekosystemTypes);
-    JSONplaces = JSON.stringify(cg.config.places);
-
-    alert('done');
-</script>
-
 {{=form}}
 
 <p><a href="{{=URL('nacti')}}">opakovat vyhledání a načtení konfiguračního souboru config.js</a></p>
+
+<script>
+    {{=XML(js)}}
+
+    var dt = JSON.stringify(cg.config.dataTypes);
+    var et = JSON.stringify(cg.config.ekosystemTypes);
+
+    $('#no_table_baselayers').val(cg.config.baseLayers);
+    $('#no_table_dataTypes').val(dt);
+    $('#no_table_ekosystemTypes').val(et);
+    $('#no_table_places').val(cg.config.places);
+
+    $('input[name="JSONbaselayers"]').val(JSON.stringify(cg.config.baseLayers));
+    $('input[name="JSONdatatypes"]').val(dt);
+    $('input[name="JSONekosystemtypes"]').val(et);
+    $('input[name="JSONplaces"]').val(JSON.stringify(cg.config.places));
+</script>
