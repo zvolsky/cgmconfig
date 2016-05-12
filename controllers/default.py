@@ -5,17 +5,78 @@ import os
 
 def index():
     configfile = db(db.configfile).select().first()
-    if not configfile:
-        db.configfile[0] = {}
-        db.commit()
-        configfile = db(db.configfile).select().first()
+    if not configfile or not configfile.cfparsed_ok:
+        redirect(URL('nacti'))
+    redirect(URL('nastav'))
 
-    form = SQLFORM(db.configfile, configfile.id)
+def nacti():
+    db.configfile.truncate('RESTART IDENTITY CASCADE')  # param podle book-6 pro SQLite
+    db.commit()
+
+    form = SQLFORM(db.configfile, submit_button='Načíst zadaný soubor')
     if form.process().accepted:
-        pass
+        redirect(URL('nacti1'))
+
     return dict(form=form)
 
-# JSON.stringify(value)
+def nacti1():
+    db.baselayers.truncate('RESTART IDENTITY CASCADE')
+    db.datatypes.truncate('RESTART IDENTITY CASCADE')
+    db.ekosystemtypes.truncate('RESTART IDENTITY CASCADE')
+    db.places.truncate('RESTART IDENTITY CASCADE')
+    db.campaigns.truncate('RESTART IDENTITY CASCADE')
+    db.datasets.truncate('RESTART IDENTITY CASCADE')
+    db.commit()
+
+    configfile = db(db.configfile).select().first()
+    if not configfile or not configfile.configfile:
+        redirect(URL('nacti'))
+
+    with open(os.path.join(request.folder, 'uploads', configfile.configfile)) as cfg:
+        content = cfg.read()
+    configfile.update_record(cfcontent=content)
+    redirect(URL('nacti2'))
+
+def nacti2():
+    configfile = db(db.configfile).select().first()
+    if not configfile or not configfile.cfcontent:
+        redirect(URL('nacti'))
+
+    db.configfile.configfile.readable = False
+    db.configfile.configfile.writable = False
+    db.configfile.cfcontent.readable = True
+
+    form = SQLFORM(db.configfile, configfile.id, submit_button='Pokračovat')
+    if form.process().accepted:
+        redirect(URL('nacti3'))
+
+    return dict(form=form)
+
+def nacti3():
+    configfile = db(db.configfile).select().first()
+    if not configfile or not configfile.cfcontent:
+        redirect(URL('nacti'))
+
+    form = SQLFORM.factory(
+        Field('baselayers', 'text', writable=False, label='baselayers'),
+        Field('datatypes', 'text', writable=False, label='datatypes'),
+        Field('ekosystemtypes', 'text', writable=False, label='ekosystemtypes'),
+        Field('places', 'text', writable=False, label='data'),
+        hidden=dict(JSONbaselayers='', JSONdatatypes='', JSONekosystemtypes='', JSONplaces=''),
+        submit_button='Pokračovat'
+    )
+    if form.process().accepted:
+        print simplejson.loads(request.vars.JSONbaselayers)
+        print simplejson.loads(request.vars.JSONdatatypes)
+        print simplejson.loads(request.vars.JSONekosystemtypes)
+        print simplejson.loads(request.vars.JSONplaces)
+
+        redirect(URL('nastav'))
+
+    return dict(js=configfile.cfcontent, form=form)
+
+def nastav():
+    return 'dodelat nastav'
 
 
 

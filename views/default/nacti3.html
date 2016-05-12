@@ -1,0 +1,20 @@
+{{extend 'layout.html'}}
+
+<script>debugger;
+{{=XML(js)}}</script>
+
+<script>
+    alert(cg.config.baseLayers);
+    alert(JSON.stringify(cg.config.baseLayers));
+
+    JSONbaselayers = JSON.stringify(cg.config.baseLayers);
+    JSONdatatypes = JSON.stringify(cg.config.dataTypes);
+    JSONekosystemtypes = JSON.stringify(cg.config.ekosystemTypes);
+    JSONplaces = JSON.stringify(cg.config.places);
+
+    alert('done');
+</script>
+
+{{=form}}
+
+<p><a href="{{=URL('nacti')}}">opakovat vyhledání a načtení konfiguračního souboru config.js</a></p>

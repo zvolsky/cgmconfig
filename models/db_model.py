@@ -5,7 +5,11 @@ class Ciselnik(object):
 ciselnik = Ciselnik()
 
 db.define_table('configfile',
-        Field('configfile', 'upload'))
+        Field('configfile', 'upload', requires=IS_NOT_EMPTY(), label='config.js',
+                comment='vlož (původní) konfigurační soubor'),
+        Field('cfcontent', 'text', readable=False, writable=False),
+        Field('cfparsed_ok', 'boolean', default=False, readable=False, writable=False),
+        )
 
 db.define_table('baselayers',
         Field('baselayer', 'string', length=32, requires=IS_NOT_EMPTY(), label='baseLayer',
