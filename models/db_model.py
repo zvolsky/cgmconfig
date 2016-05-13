@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 class Ciselnik(object):
-    text_size = 262144  # if config file is bigger, increase this or use writable=False where it fails
     ctrl = '(Ctrl+click vybere více možností současně)'
     err_vyber = 'Vyber jednu nebo více možností'
     err_neco = 'Údaj je povinný'
@@ -17,7 +16,7 @@ class IS_IN_DB_(IS_IN_DB):
 db.define_table('configfile',
         Field('configfile', 'upload', requires=IS_NOT_EMPTY_(), label='config.js',
                 comment='vlož (původní) konfigurační soubor'),
-        Field('cfcontent', 'text', length=Ciselnik.text_size, readable=False, writable=False),
+        Field('cfcontent', 'text', requires=[], readable=False, writable=False),
         Field('cfparsed_ok', 'boolean', default=False, readable=False, writable=False),
         )
 

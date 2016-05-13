@@ -50,7 +50,7 @@ def nacti2():
     db.configfile.cfcontent.readable = True
     db.configfile.cfcontent.writable = True
 
-    form = SQLFORM(db.configfile, configfile.id, submit_button='Pokračovat')
+    form = SQLFORM(db.configfile, configfile.id, showid=False, submit_button='Pokračovat')
     if form.process().accepted:
         redirect(URL('nacti3'))
 
@@ -68,7 +68,7 @@ def nacti3():
         Field('baselayers', 'text', label='baselayers'),
         Field('datatypes', 'text', label='datatypes'),
         Field('ekosystemtypes', 'text', label='ekosystemtypes'),
-        Field('places', 'text', length=ciselnik.text_size, label='data'),
+        Field('places', 'text', requires=[], label='data'),
         hidden=dict(JSONbaselayers='', JSONdatatypes='', JSONekosystemtypes='', JSONplaces=''),
         submit_button='Pokračovat'
     )
@@ -116,20 +116,39 @@ def nacti3():
                         cdaterange=date0, cdaterange2=date1)
                 for dataset in campaign['datasets']:
                     tit = dataset['title']
+                    des = dataset.get('description')
                     try:
                         titen = tit.get('en', '')
                         titcs = tit.get('cs', titen)
                     except:
                         titen = ''
                         titcs = tit
+                    try:
+                        desen = des.get('en', '')
+                        descs = des.get('cs', desen)
+                    except:
+                        desen = None
+                        descs = des
                     ddate = dataset['date']
+                    dspectralrange = dataset.get('spectralRange', [None, None])
+                    dspectralresolution = dataset.get('spectralResolution')
+                    if type(dspectralresolution) not in (tuple, list):
+                        dspectralresolution = [dspectralresolution, None]
                     db.datasets.insert(campaigns_id=campaigns_id,
                             dtitlecs=titcs, dtitleen=titen,
                             ddate=datetime.datetime.strptime(ddate[:16], '%Y-%m-%d %H:%M'), ddatetz=ddate[16:] or 'Z',
                             datatypes_id=[datatypes[datatype] for datatype in dataset['dataTypes']],
-                            ekosystemtypes_id=[ekosystemtypes[ekosystemtype] for ekosystemtype in dataset['ekosystemTypes']])
+                            ekosystemtypes_id=[ekosystemtypes[ekosystemtype] for ekosystemtype in dataset['ekosystemTypes']],
+                            dlayer=dataset['layer']['sublayers'],
+                            dspatialresolution=dataset.get('spatialResolution'),
+                            dpointspermeter=dataset.get('pointsPerMeter'),
+                            dspectralrangefrom=dspectralrange[0], dspectralrangeto=dspectralrange[1],
+                            dspectralresolutionfrom=dspectralresolution[0], dspectralresolutionto=dspectralresolution[1],
+                            dnumberofbands=dataset.get('numberOfBands'),
+                            ddescriptioncs=descs, ddescriptionen=desen
+                            )
 
-        #db(db.configfile).update(cfparsed_ok=True)
+        db(db.configfile).update(cfparsed_ok=True)
         redirect(URL('nastav'))
 
     return dict(js=configfile.cfcontent, form=form)
