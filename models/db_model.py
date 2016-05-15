@@ -62,6 +62,8 @@ db.define_table('places',
               comment='souřadnice, Right, příklad: 15.355'),
         Field('pextentt', 'decimal(6,3)', requires=IS_NOT_EMPTY_(), label='extent T',
               comment='souřadnice, Top, příklad: 49.524'),
+        Field('cnt_campaign', 'integer', default=0, label='počet kampaní',
+              writable=False),
         )
 
 db.define_table('campaigns',
@@ -71,6 +73,8 @@ db.define_table('campaigns',
               comment='jediné nebo počáteční datum pro dateRange'),
         Field('cdaterange2', 'date', label='datum do',
               comment='konečné datum pro dateRange (pokud se liší od počátečního)'),
+        Field('cnt_dataset', 'integer', default=0, label='počet datasetů',
+              writable=False),
         )
 
 db.define_table('datasets',

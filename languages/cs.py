@@ -362,6 +362,7 @@
 'Plural-Forms:': 'Množná čísla:',
 'Pokračovat': 'Pokračovat',
 'Powered by': 'Používá technologii',
+'počet kampaní': 'počet kampaní',
 'Preface': 'Předmluva',
 'previous 100 rows': 'předchozích 100 řádků',
 'Private files': 'Soukromé soubory',

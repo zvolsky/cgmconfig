@@ -103,6 +103,7 @@ def nacti3():
             places_id = db.places.insert(baselayers_id=baselayers[place['baseLayer']],
                         ptitlecs=titcs, ptitleen=titen,
                         pextentl=extent[0], pextentb=extent[1], pextentr=extent[2], pextentt=extent[3])
+            cnt_campaign = 0
             for campaign in place['campaigns']:
                 daterange = campaign['dateRange']
                 try:
@@ -113,6 +114,8 @@ def nacti3():
                     date1 = None
                 campaigns_id = db.campaigns.insert(places_id=places_id,
                         cdaterange=date0, cdaterange2=date1)
+                cnt_campaign += 1
+                cnt_dataset = 0
                 for dataset in campaign['datasets']:
                     tit = dataset['title']
                     des = dataset.get('description')
@@ -146,6 +149,9 @@ def nacti3():
                             dnumberofbands=dataset.get('numberOfBands'),
                             ddescriptioncs=descs, ddescriptionen=desen
                             )
+                    cnt_dataset += 1
+                db.campaigns[campaigns_id] = dict(cnt_dataset=cnt_dataset)
+            db.places[places_id] = dict(cnt_campaign=cnt_campaign)
 
         db(db.configfile).update(cfparsed_ok=True)
         redirect(URL('places'))
@@ -159,6 +165,7 @@ def places():
             user_signature=False,
             showbuttontext=False
             )
+    # oncreate take a form object as input, ondelete takes the table and the record id
     return dict(grid=grid)
 
 def baselayers():
