@@ -5,9 +5,7 @@
 # Customize your APP title, subtitle and menus here
 # ----------------------------------------------------------------------------------------------------------------------
 
-response.logo = A(B('web', SPAN(2), 'py'), XML('&trade;&nbsp;'),
-                  _class="navbar-brand", _href="http://www.web2py.com/",
-                  _id="web2py-logo")
+response.logo = SPAN(B('cgmConfig'), _class="navbar-brand")
 response.title = request.application.replace('_', ' ').title()
 response.subtitle = ''
 
@@ -29,7 +27,14 @@ response.google_analytics_id = None
 # ----------------------------------------------------------------------------------------------------------------------
 
 response.menu = [
-    (T('Home'), False, URL('default', 'index'), [])
+    ('Načti', False, URL('default', 'nacti'), []),
+    ('Číselníky', False, '#', [
+        ('baselayers', False, URL('default', 'baselayers'), []),
+        ('datatypes', False, URL('default', 'datatypes'), []),
+        ('ekosystemtypes', False, URL('default', 'ekosystemtypes'), []),
+    ]),
+    ('Místa a kampaně', False, URL('default', 'places'), []),
+    ('Výsledek', False, URL('default', 'stahni'), []),
 ]
 
 DEVELOPMENT_MENU = True

@@ -7,10 +7,9 @@ from gluon.contrib import simplejson
 
 
 def index():
-    configfile = db(db.configfile).select().first()
-    if not configfile or not configfile.cfparsed_ok:
-        redirect(URL('nacti'))
-    redirect(URL('nastav'))
+    __nacti_if_nic()
+    session.flash = "Data jsou načtena, lze je upravit a stáhnout výsledný config.js. Nebo načti config.js znovu volbou menu Načti."
+    redirect(URL('places'))
 
 def nacti():
     db.configfile.truncate('RESTART IDENTITY CASCADE')  # param podle book-6 pro SQLite
@@ -149,14 +148,53 @@ def nacti3():
                             )
 
         db(db.configfile).update(cfparsed_ok=True)
-        redirect(URL('nastav'))
+        redirect(URL('places'))
 
     return dict(js=configfile.cfcontent, form=form)
 
-def nastav():
-    return 'dodelat nastav'
+def places():
+    __nacti_if_nic()
+    grid = SQLFORM.grid(
+            db.places,
+            user_signature=False,
+            showbuttontext=False
+            )
+    return dict(grid=grid)
 
+def baselayers():
+    __nacti_if_nic()
+    grid = SQLFORM.grid(db.baselayers,
+            user_signature=False,
+            deletable=False,
+            showbuttontext=False,
+            )
+    return dict(grid=grid)
 
+def datatypes():
+    __nacti_if_nic()
+    grid = SQLFORM.grid(db.datatypes,
+            user_signature=False,
+            deletable=False,
+            showbuttontext=False
+            )
+    return dict(grid=grid)
+
+def ekosystemtypes():
+    __nacti_if_nic()
+    grid = SQLFORM.grid(db.ekosystemtypes,
+            user_signature=False,
+            deletable=False,
+            showbuttontext=False
+            )
+    return dict(grid=grid)
+
+def __nacti_if_nic():
+    configfile = db(db.configfile).select().first()
+    if (not configfile or not configfile.cfparsed_ok
+                or not db(db.places).count() or not db(db.baselayers).count()
+                or not db(db.datatypes).count() or not db(db.ekosystemtypes).count()):
+        session.flash = "Není načten config.js (chybí data (místa) nebo některý pomocný číselník). Je třeba jej nejprve načíst."
+        redirect(URL('nacti'))
 
 def user():
     """

@@ -22,13 +22,13 @@ db.define_table('configfile',
 
 db.define_table('baselayers',
         Field('baselayer', 'string', length=32, requires=IS_NOT_EMPTY_(), label='baseLayer',
-              comment='číselník baseLayer pro tabulku places'),
+              comment='označení položky'),
         format=lambda r: r.baselayer
         )
 
 db.define_table('datatypes',
         Field('dtid', 'string', length=32, requires=IS_NOT_EMPTY_(), label='id',
-              comment='označení'),
+              comment='označení položky'),
         Field('dtcs', 'string', length=128, requires=IS_NOT_EMPTY_(), label='cs',
               comment='český popis'),
         Field('dten', 'string', length=128, label='en',
@@ -38,7 +38,7 @@ db.define_table('datatypes',
 
 db.define_table('ekosystemtypes',
         Field('etid', 'string', length=32, requires=IS_NOT_EMPTY_(), label='id',
-              comment='označení'),
+              comment='označení položky'),
         Field('etcs', 'string', length=128, requires=IS_NOT_EMPTY_(), label='cs',
               comment='český popis'),
         Field('eten', 'string', length=128, label='en',
