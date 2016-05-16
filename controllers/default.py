@@ -57,7 +57,7 @@ def nacti2():
 
 def nacti3():
     def cnvdate(yyyymmdd):
-        return datetime.datetime.strptime('2016-05-20', '%Y-%m-%d').date()
+        return datetime.datetime.strptime(yyyymmdd, '%Y-%m-%d').date()
 
     configfile = db(db.configfile).select().first()
     if not configfile or not configfile.cfcontent:
@@ -159,11 +159,37 @@ def nacti3():
     return dict(js=configfile.cfcontent, form=form)
 
 def places():
+    def oncreate(form):
+        if form.table._tablename == 'campaigns':
+            place = db(db.places.id == form.custom.inpval.places_id).select(db.places.id, db.places.cnt_campaign).first()
+            place.update_record(cnt_campaign=place.cnt_campaign + 1)
+        elif form.table._tablename == 'datasets':
+            campaign = db(db.campaigns.id == form.custom.inpval.campaigns_id).select(db.campaigns.id, db.campaigns.cnt_dataset).first()
+            campaign.update_record(cnt_dataset=campaign.cnt_dataset + 1)
+
+    def ondelete(table, rec_id):
+        if table._tablename == 'campaigns':
+            place = db(table.id == rec_id).select(db.places.id, db.places.cnt_campaign,
+                                              join=db.places.on(db.places.id == db.campaigns.places_id)).first()
+            place.update_record(cnt_campaign=max(0, place.cnt_campaign - 1))
+        elif table._tablename == 'datasets':
+            campaign = db(table.id == rec_id).select(db.campaigns.id, db.campaigns.cnt_dataset,
+                                              join=db.campaigns.on(db.campaigns.id == db.datasets.campaigns_id)).first()
+            campaign.update_record(cnt_dataset=max(0, campaign.cnt_dataset - 1))
+
     __nacti_if_nic()
-    grid = SQLFORM.grid(
+    grid = SQLFORM.smartgrid(
             db.places,
+            fields={'places': None, 'campaigns':None,
+                    'datasets': [db.datasets.id, db.datasets.campaigns_id, db.datasets.dtitlecs, db.datasets.dtitleen,
+                                 db.datasets.ddate, db.datasets.ddatetz,
+                                 db.datasets.datatypes_id, db.datasets.ekosystemtypes_id, db.datasets.dlayer]},
+            searchable={'places': True, 'campaigns':False, 'datasets':False},
+            oncreate=oncreate,
+            ondelete=ondelete,
             user_signature=False,
-            showbuttontext=False
+            showbuttontext=False,
+            divider=' > '
             )
     # oncreate take a form object as input, ondelete takes the table and the record id
     return dict(grid=grid)
@@ -174,6 +200,7 @@ def baselayers():
             user_signature=False,
             deletable=False,
             showbuttontext=False,
+            divider=' > '
             )
     return dict(grid=grid)
 
@@ -182,7 +209,8 @@ def datatypes():
     grid = SQLFORM.grid(db.datatypes,
             user_signature=False,
             deletable=False,
-            showbuttontext=False
+            showbuttontext=False,
+            divider=' > '
             )
     return dict(grid=grid)
 
@@ -191,7 +219,8 @@ def ekosystemtypes():
     grid = SQLFORM.grid(db.ekosystemtypes,
             user_signature=False,
             deletable=False,
-            showbuttontext=False
+            showbuttontext=False,
+            divider=' > '
             )
     return dict(grid=grid)
 

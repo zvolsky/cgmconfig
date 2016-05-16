@@ -64,17 +64,22 @@ db.define_table('places',
               comment='souřadnice, Top, příklad: 49.524'),
         Field('cnt_campaign', 'integer', default=0, label='počet kampaní',
               writable=False),
+        format=lambda r: r.ptitlecs,
+        singular='place', plural='places'
         )
 
 db.define_table('campaigns',
         Field('places_id', db.places, requires=IS_NOT_EMPTY_(), writable=False,
               label='places', comment='místo'),
-        Field('cdaterange', 'date', requires=IS_NOT_EMPTY_(), label='datum (od)',
-              comment='jediné nebo počáteční datum pro dateRange'),
+        Field('cdaterange', 'date',
+              requires=IS_NOT_EMPTY_(),
+              label='datum (od)', comment='jediné nebo počáteční datum pro dateRange'),
         Field('cdaterange2', 'date', label='datum do',
               comment='konečné datum pro dateRange (pokud se liší od počátečního)'),
         Field('cnt_dataset', 'integer', default=0, label='počet datasetů',
               writable=False),
+        format=lambda r: r.cdaterange,
+        singular='campaign', plural='campaigns'
         )
 
 db.define_table('datasets',
@@ -114,4 +119,5 @@ db.define_table('datasets',
               comment='popis (bez uvozovek, nepovinné)'),
         Field('ddescriptionen', 'string', length=255, label='description en',
               comment='popis anglicky / description in english (nepovinné)'),
+        singular='dataset', plural='datasets'
         )

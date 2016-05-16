@@ -1,7 +1,11 @@
 
 {{extend 'layout.html'}}
 
-{{=grid}}
+{{if len(request.args) <= 1:}}
+    <div class="alert alert-info">[+] přidá novou položku. Editace položek pomocí ikony pro editaci, přehled a editace kampaní a datasetů pomocí odkazů 'campaigns', 'datasets'.</div>
+{{pass}}
+
+<div class="well well-lg">{{=grid}}</div>
 
 <script>
     $('#w2p_query_panel').remove();
