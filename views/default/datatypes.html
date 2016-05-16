@@ -2,7 +2,9 @@
 {{extend 'layout.html'}}
 
 <h2>datatypes</h2>
-<div class="alert alert-warning">Slouží pro přidání nových položek pomocí [+]. Nedoporučuje se měnit stávající položky.</div>
+{{if len(request.args) <= 1:}}
+    <div class="alert alert-warning">Slouží pro přidání nových položek pomocí [+]. Nedoporučuje se měnit stávající položky.</div>
+{{pass}}
 
 {{=grid}}
 

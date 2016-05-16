@@ -184,6 +184,7 @@ def places():
                     'datasets': [db.datasets.id, db.datasets.campaigns_id, db.datasets.dtitlecs, db.datasets.dtitleen,
                                  db.datasets.ddate, db.datasets.ddatetz,
                                  db.datasets.datatypes_id, db.datasets.ekosystemtypes_id, db.datasets.dlayer]},
+            formstyle='table3cols',
             searchable={'places': True, 'campaigns':False, 'datasets':False},
             oncreate=oncreate,
             ondelete=ondelete,
@@ -199,8 +200,7 @@ def baselayers():
     grid = SQLFORM.grid(db.baselayers,
             user_signature=False,
             deletable=False,
-            showbuttontext=False,
-            divider=' > '
+            showbuttontext=False
             )
     return dict(grid=grid)
 
@@ -209,8 +209,7 @@ def datatypes():
     grid = SQLFORM.grid(db.datatypes,
             user_signature=False,
             deletable=False,
-            showbuttontext=False,
-            divider=' > '
+            showbuttontext=False
             )
     return dict(grid=grid)
 
@@ -219,8 +218,7 @@ def ekosystemtypes():
     grid = SQLFORM.grid(db.ekosystemtypes,
             user_signature=False,
             deletable=False,
-            showbuttontext=False,
-            divider=' > '
+            showbuttontext=False
             )
     return dict(grid=grid)
 
