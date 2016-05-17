@@ -291,3 +291,16 @@ def call():
     supports xml, json, xmlrpc, jsonrpc, amfrpc, rss, csv
     """
     return service()
+
+"""
+>>> from slimit import ast
+>>> from slimit.parser import Parser
+>>> from slimit.visitors import nodevisitor
+>>> parser = Parser()
+>>> tree = parser.parse(c)
+>>> for node in nodevisitor.visit(tree):
+	from pdb import set_trace;set_trace()
+node.to_ecma().replace(' ','')[:12] == 'baseLayers:['
+další je: baseLayers
+další je: [hodnota]
+"""
