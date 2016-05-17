@@ -4,6 +4,7 @@ import datetime
 import os
 
 from gluon.contrib import simplejson
+from plugin_mz import force_download
 
 
 def index():
@@ -180,7 +181,8 @@ def places():
     __nacti_if_nic()
     grid = SQLFORM.smartgrid(
             db.places,
-            fields={'places': None, 'campaigns':None,
+            fields={'places': [db.places.id, db.places.ptitlecs, db.places.cnt_campaign],
+                    'campaigns':None,
                     'datasets': [db.datasets.id, db.datasets.campaigns_id, db.datasets.dtitlecs, db.datasets.dtitleen,
                                  db.datasets.ddate, db.datasets.ddatetz,
                                  db.datasets.datatypes_id, db.datasets.ekosystemtypes_id, db.datasets.dlayer]},
@@ -230,6 +232,23 @@ def __nacti_if_nic():
         session.flash = "Není načten config.js (chybí data (místa) nebo některý pomocný číselník). Je třeba jej nejprve načíst."
         redirect(URL('nacti'))
 
+def stahni():
+    places = db(db.places).select(db.places.id, db.places.ptitlecs, orderby=db.places.id)
+    datasets = db(db.datasets).select(db.places.id, distinct=True,
+            join=[db.campaigns.on(db.campaigns.id == db.datasets.campaigns_id),
+                db.places.on(db.places.id == db.campaigns.places_id)])
+    places_w_dataset = set()
+    for dataset in datasets:
+        places_w_dataset.add(dataset.id)
+    return dict(problems=[place for place in places if place.id not in places_w_dataset])
+
+def stahni2():
+    content = db(db.configfile).select(db.configfile.cfcontent).first().cfcontent
+    return force_download('config.js', content)
+
+def wiki():
+    return auth.wiki()
+
 def user():
     """
     exposes:
@@ -266,5 +285,3 @@ def call():
     supports xml, json, xmlrpc, jsonrpc, amfrpc, rss, csv
     """
     return service()
-
-

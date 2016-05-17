@@ -35,6 +35,7 @@ response.menu = [
     ]),
     ('Místa a kampaně', False, URL('default', 'places'), []),
     ('Výsledek', False, URL('default', 'stahni'), []),
+    ('Info', False, URL('default', 'wiki'), []),
 ]
 
 DEVELOPMENT_MENU = True

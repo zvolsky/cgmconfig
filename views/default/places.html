@@ -2,7 +2,7 @@
 {{extend 'layout.html'}}
 
 {{if len(request.args) <= 1:}}
-    <div class="alert alert-info">[+] přidá novou položku. Editace položek pomocí ikony pro editaci, přehled a editace kampaní a datasetů pomocí odkazů 'campaigns', 'datasets'.</div>
+    <div class="alert alert-info">[+] přidá novou položku. --- Editace položek pomocí (prostřední) ikony pro editaci. --- Přehled a editace kampaní a datasetů pomocí odkazů 'campaigns', 'datasets'.</div>
 {{pass}}
 
 <div class="well well-lg">{{=grid}}</div>

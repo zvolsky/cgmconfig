@@ -1,0 +1,21 @@
+{{extend 'layout.html'}}
+
+{{if problems:}}
+    <div class="alert alert-warning">
+        <ul><b>Místa, která nemají alespoň jednu kampaň a ke každé kampani alespoň jeden dataset, nebudou exportována:</b>
+            {{for problem in problems:}}
+                <li><i>{{=problem.id}}</i> - {{=problem.ptitlecs}}</li>
+            {{pass}}
+        </ul>
+    </div>
+{{else:}}
+    <div class="alert alert-success">
+        <p>Každé místo má alespoň jednu kampaň a ke každé kampani alespoň jeden dataset.</p>
+        <p>OK. Všechna místa budou exportována.</p>
+    </div>
+{{pass}}
+
+<p><div class="btn-group">
+    <a href="{{=URL('stahni2')}}?attachment" class="btn btn-primary">Pokračuj</a>
+    <a href="{{=URL('places')}}" class="btn btn-link">Zpět</a>
+</div></p>
