@@ -14,8 +14,8 @@ class IS_IN_DB_(IS_IN_DB):
         super(IS_IN_DB_, self).__init__(*args, error_message=Ciselnik.err_vyber, **kwargs)
 
 db.define_table('configfile',
-        Field('configfile', 'upload', requires=IS_NOT_EMPTY_(), label='config.js',
-                comment='vlož (původní) konfigurační soubor'),
+        Field('configfile', 'upload',
+                requires=IS_NOT_EMPTY_()),
         Field('cfcontent', 'text', requires=[], readable=False, writable=False),
         Field('cfparsed_ok', 'boolean', default=False, readable=False, writable=False),
         )

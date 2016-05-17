@@ -13,11 +13,15 @@ def index():
     redirect(URL('places'))
 
 def nacti():
-    db.configfile.truncate('RESTART IDENTITY CASCADE')  # param podle book-6 pro SQLite
-    db.commit()
-
-    form = SQLFORM(db.configfile, submit_button='Načíst zadaný soubor')
+    form = SQLFORM.factory(Field('configfile', 'upload',
+                uploadfolder = os.path.join(request.folder, 'uploads'),
+                requires=IS_NOT_EMPTY_(),
+                label='config.js', comment='vlož (původní) konfigurační soubor'),
+            table_name='configfile',
+            submit_button='Načíst zadaný soubor')
     if form.process().accepted:
+        db.configfile.truncate('RESTART IDENTITY CASCADE')  # param podle book-6 pro SQLite
+        db.configfile.insert(configfile=form.vars.configfile)
         redirect(URL('nacti1'))
 
     return dict(form=form)
