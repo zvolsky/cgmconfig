@@ -187,6 +187,7 @@ def places():
                                  db.datasets.ddate, db.datasets.ddatetz,
                                  db.datasets.datatypes_id, db.datasets.ekosystemtypes_id, db.datasets.dlayer]},
             formstyle='table3cols',
+            paginate=200,
             searchable={'places': True, 'campaigns':False, 'datasets':False},
             oncreate=oncreate,
             ondelete=ondelete,
@@ -194,7 +195,6 @@ def places():
             showbuttontext=False,
             divider=' > '
             )
-    # oncreate take a form object as input, ondelete takes the table and the record id
     return dict(grid=grid)
 
 def baselayers():
@@ -204,7 +204,7 @@ def baselayers():
             deletable=False,
             showbuttontext=False
             )
-    return dict(grid=grid)
+    return dict(grid=grid, hdr='baselayers')
 
 def datatypes():
     __nacti_if_nic()
@@ -213,7 +213,8 @@ def datatypes():
             deletable=False,
             showbuttontext=False
             )
-    return dict(grid=grid)
+    response.view = 'default/baselayers.html'
+    return dict(grid=grid, hdr='datatypes')
 
 def ekosystemtypes():
     __nacti_if_nic()
@@ -222,7 +223,8 @@ def ekosystemtypes():
             deletable=False,
             showbuttontext=False
             )
-    return dict(grid=grid)
+    response.view = 'default/baselayers.html'
+    return dict(grid=grid, hdr='ekosystemtypes')
 
 def __nacti_if_nic():
     configfile = db(db.configfile).select().first()

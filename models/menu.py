@@ -27,6 +27,7 @@ response.google_analytics_id = None
 # ----------------------------------------------------------------------------------------------------------------------
 
 response.menu = [
+    ('Návod', False, URL('default', 'wiki'), []),
     ('Načti', False, URL('default', 'nacti'), []),
     ('Číselníky', False, '#', [
         ('baselayers', False, URL('default', 'baselayers'), []),
@@ -35,7 +36,6 @@ response.menu = [
     ]),
     ('Místa a kampaně', False, URL('default', 'places'), []),
     ('Výsledek', False, URL('default', 'stahni'), []),
-    ('Info', False, URL('default', 'wiki'), []),
 ]
 
 DEVELOPMENT_MENU = True

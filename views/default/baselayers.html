@@ -1,7 +1,7 @@
 
 {{extend 'layout.html'}}
 
-<h2>baselayers</h2>
+<h2>{{=hdr}}</h2>
 {{if len(request.args) <= 1:}}
     <div class="alert alert-warning">Slouží pro přidání nových položek pomocí [+]. Nedoporučuje se měnit stávající položky.</div>
 {{pass}}
