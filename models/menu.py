@@ -38,7 +38,7 @@ response.menu = [
     ('Výsledek', False, URL('default', 'stahni'), []),
 ]
 
-DEVELOPMENT_MENU = True
+DEVELOPMENT_MENU = request.is_local
 
 
 # ----------------------------------------------------------------------------------------------------------------------
