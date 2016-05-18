@@ -51,7 +51,7 @@ def stahni2():
             else:
                 name_stack += char
             out += char
-    return force_download('config.js', out)
+    return force_download('config.js', out, 'application/javascript')
 
 def __get_intruder(identifier):
 
