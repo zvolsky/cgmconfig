@@ -4,7 +4,6 @@ import datetime
 import os
 
 from gluon.contrib import simplejson
-from plugin_mz import force_download
 
 
 def index():
@@ -248,10 +247,6 @@ def stahni():
         places_w_dataset.add(dataset.id)
     return dict(problems=[place for place in places if place.id not in places_w_dataset])
 
-def stahni2():
-    content = db(db.configfile).select(db.configfile.cfcontent).first().cfcontent
-    return force_download('config.js', content)
-
 def wiki():
     return auth.wiki()
 
@@ -291,16 +286,3 @@ def call():
     supports xml, json, xmlrpc, jsonrpc, amfrpc, rss, csv
     """
     return service()
-
-"""
->>> from slimit import ast
->>> from slimit.parser import Parser
->>> from slimit.visitors import nodevisitor
->>> parser = Parser()
->>> tree = parser.parse(c)
->>> for node in nodevisitor.visit(tree):
-	from pdb import set_trace;set_trace()
-node.to_ecma().replace(' ','')[:12] == 'baseLayers:['
-další je: baseLayers
-další je: [hodnota]
-"""
