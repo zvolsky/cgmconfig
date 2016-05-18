@@ -211,6 +211,7 @@
 'Enter a value': 'Enter a value',
 'Enter an integer between %(min)g and %(max)g': 'Enter an integer between %(min)g and %(max)g',
 'enter an integer between %(min)g and %(max)g': 'zadejte celé číslo mezi %(min)g a %(max)g',
+'Enter date and time as %(format)s': 'Enter date and time as %(format)s',
 'Enter from %(min)g to %(max)g characters': 'Enter from %(min)g to %(max)g characters',
 'Error': 'Chyba',
 'Error logs for "%(app)s"': 'Seznam výskytu chyb pro aplikaci "%(app)s"',

@@ -88,6 +88,7 @@ var/
 sdist/
 develop-eggs/
 
+agenda/
 uploads/
 downloads/
 databases/
