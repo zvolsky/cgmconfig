@@ -567,7 +567,7 @@
 'Version %s.%s.%s (%s) %s': 'Verze %s.%s.%s (%s) %s',
 'Versioning': 'Verzování',
 'Videos': 'Videa',
-'View': 'Pohled (View)',
+'View': 'Zobrazit',
 'View %(entity)s': 'View %(entity)s',
 'View Page': 'View Page',
 'Views': 'Pohledy',

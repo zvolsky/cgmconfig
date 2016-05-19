@@ -5,6 +5,14 @@ import os
 
 from gluon.contrib import simplejson
 
+from plugin_mz import formstyle_bootstrap3_compact_factory
+
+
+MSG_PROC = DIV("Tato mezistránka jen ukazuje, zda proces načtení config.js probíhá správně. Stiskni (dole) Pokračovat.",
+        _class="alert alert-info")
+MSG_BACK = P(A("opakovat vyhledání a načtení konfiguračního souboru config.js",
+               _href="%s" % URL('nacti'), _class="btn btn-link"))
+
 
 def index():
     __nacti_if_nic()
@@ -57,7 +65,7 @@ def nacti2():
     if form.process().accepted:
         redirect(URL('nacti3'))
 
-    return dict(form=form)
+    return dict(form=form, msg=(MSG_PROC, MSG_BACK))
 
 def nacti3():
     def cnvdate(yyyymmdd):
@@ -160,7 +168,7 @@ def nacti3():
         db(db.configfile).update(cfparsed_ok=True)
         redirect(URL('places'))
 
-    return dict(js=configfile.cfcontent, form=form)
+    return dict(js=configfile.cfcontent, form=form, msg=(MSG_PROC, MSG_BACK))
 
 def places():
     def oncreate(form):
@@ -182,6 +190,9 @@ def places():
             campaign.update_record(cnt_dataset=max(0, campaign.cnt_dataset - 1))
 
     __nacti_if_nic()
+    db.places.id.readable = False
+    db.campaigns.id.readable = False
+    db.datasets.id.readable = False
     grid = SQLFORM.smartgrid(
             db.places,
             fields={'places': [db.places.id, db.places.ptitlecs, db.places.cnt_campaign],
@@ -189,7 +200,7 @@ def places():
                     'datasets': [db.datasets.id, db.datasets.campaigns_id, db.datasets.dtitlecs, db.datasets.dtitleen,
                                  db.datasets.ddate, db.datasets.ddatetz,
                                  db.datasets.datatypes_id, db.datasets.ekosystemtypes_id, db.datasets.dlayer]},
-            formstyle='table3cols',
+            formstyle=formstyle_bootstrap3_compact_factory(),
             paginate=200,
             searchable={'places': True, 'campaigns':False, 'datasets':False},
             oncreate=oncreate,
@@ -238,6 +249,7 @@ def __nacti_if_nic():
         redirect(URL('nacti'))
 
 def stahni():
+    __nacti_if_nic()
     places = db(db.places).select(db.places.id, db.places.ptitlecs, orderby=db.places.id)
     datasets = db(db.datasets).select(db.places.id, distinct=True,
             join=[db.campaigns.on(db.campaigns.id == db.datasets.campaigns_id),

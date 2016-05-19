@@ -1,10 +1,14 @@
 {{extend 'layout.html'}}
 
+{{=msg[0]}}
+
 {{=form}}
 
-<p><a href="{{=URL('nacti')}}" class="btn btn-link">opakovat vyhledání a načtení konfiguračního souboru config.js</a></p>
+{{=msg[1]}}
 
 <script>
+    //$('textarea').attr('disabled', 'disabled');
+
     {{=XML(js)}}
 
     var dt = JSON.stringify(cg.config.dataTypes);
