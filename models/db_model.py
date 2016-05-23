@@ -1,5 +1,16 @@
 # -*- coding: utf-8 -*-
 
+import locale
+import platform
+
+
+if 'windows' in platform.system().lower():
+    locale.setlocale(locale.LC_ALL, 'Czech_Czech republic.1250')
+else:
+    locale.setlocale(locale.LC_ALL, 'cs_CZ.utf8')
+db._adapter.connection.create_collation("czech", locale.strcoll)  # sqlite
+
+
 class Ciselnik(object):
     ctrl = '(Ctrl+click vybere více možností současně)'
     err_vyber = 'Vyber jednu nebo více možností'
@@ -52,6 +63,7 @@ db.define_table('places',
         Field('ptitleen', 'string', length=255, label='title en',
               comment='označení místa anglicky / english (nepovinné)'),
         Field('baselayers_id', db.baselayers,
+              ondelete='RESTRICT',
               label='baseLayer',
               comment='nabízené baseLayer lze editovat v samostatné tabulce'),
         Field('pextentl', 'decimal(6,3)', requires=IS_NOT_EMPTY_(), label='extent L',
@@ -70,6 +82,7 @@ db.define_table('places',
 
 db.define_table('campaigns',
         Field('places_id', db.places, requires=IS_NOT_EMPTY_(), writable=False,
+              ondelete='CASCADE',
               label='places', comment='místo'),
         Field('cdaterange', 'date',
               requires=[IS_NOT_EMPTY_(), IS_DATE(format='%d.%m.%Y')],
@@ -85,6 +98,7 @@ db.define_table('campaigns',
 
 db.define_table('datasets',
         Field('campaigns_id', db.campaigns, requires=IS_NOT_EMPTY_(), writable=False,
+              ondelete='CASCADE',
               label='campaigns', comment='kampaň'),
         Field('dtitlecs', 'string', length=255, requires=IS_NOT_EMPTY_(), label='title',
               comment='označení místa (bez uvozovek)'),
@@ -97,9 +111,11 @@ db.define_table('datasets',
               comment='časová zóna pro date (Z znamená UTC)'),
         Field('datatypes_id', 'list:reference datatypes',
               requires=IS_IN_DB_(db, db.datatypes.id, '%(dtid)s', multiple=(1,9999999)),
+              ondelete='RESTRICT',
               label='datatypes', comment=Ciselnik.ctrl),
         Field('ekosystemtypes_id', 'list:reference ekosystemtypes',
               requires=IS_IN_DB_(db, db.ekosystemtypes.id, '%(etid)s', multiple=(1,9999999)),
+              ondelete='RESTRICT',
               label='ekosystemtypes', comment=Ciselnik.ctrl),
         Field('dlayer', 'string', length=128, requires=IS_NOT_EMPTY_(), label='layer/sublayer',
               comment='sublayer pro layer, příklad: kopaniny_dehtare_AISA_29062010'),

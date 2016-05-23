@@ -201,6 +201,7 @@ def places():
                                  db.datasets.ddate, db.datasets.ddatetz,
                                  db.datasets.datatypes_id, db.datasets.ekosystemtypes_id, db.datasets.dlayer]},
             formstyle=formstyle_bootstrap3_compact_factory(),
+            orderby={'places': db.places.ptitlecs},
             paginate=200,
             searchable={'places': True, 'campaigns':False, 'datasets':False},
             oncreate=oncreate,
