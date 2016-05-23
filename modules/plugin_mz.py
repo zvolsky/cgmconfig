@@ -30,7 +30,7 @@ def force_download(filename, content, mime_type=None):
 def formstyle_bootstrap3_compact_factory(col_label_size=2, col_help_size=6,
                                          input_class='input-sm', control_label='control-label-sm'):
     """formstyle = formstyle_bootstrap3_compact_factory()
-    TODO: control-label-sm není defnovaná (jako control-label, ale bez posunu dolů
+    TODO: control-label-sm není definovaná (jako control-label, ale bez posunu dolů)
     """
     def _inner(form, fields):
         form.add_class('form-horizontal')

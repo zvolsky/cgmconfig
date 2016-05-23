@@ -207,7 +207,7 @@ def places():
             ondelete=ondelete,
             user_signature=False,
             showbuttontext=False,
-            divider=' > '
+            divider=2*unichr(160) + '>' + 2*unichr(160)
             )
     return dict(grid=grid)
 
