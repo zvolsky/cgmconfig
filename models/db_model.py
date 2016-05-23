@@ -5,7 +5,7 @@ import platform
 
 
 if 'windows' in platform.system().lower():
-    locale.setlocale(locale.LC_ALL, 'Czech_Czech republic.1250')
+    locale.setlocale(locale.LC_ALL, 'Czech_Czech republic.1250')  # Microsoft stupidities
 else:
     locale.setlocale(locale.LC_ALL, 'cs_CZ.utf8')
 db._adapter.connection.create_collation("czech", locale.strcoll)  # sqlite
