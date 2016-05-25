@@ -5,7 +5,7 @@
 # Customize your APP title, subtitle and menus here
 # ----------------------------------------------------------------------------------------------------------------------
 
-response.logo = SPAN(B('cgmConfig'), _class="navbar-brand")
+response.logo = A(B('cgmConfig'), _class="navbar-brand", _href="%s" % URL('cgmconfig', 'default', 'index'))
 response.title = request.application.replace('_', ' ').title()
 response.subtitle = ''
 
