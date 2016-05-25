@@ -11,15 +11,18 @@ else:
 db._adapter.connection.create_collation("czech", locale.strcoll)  # sqlite
 
 
+# bylo přidáno i do plugin_mz (pod jménem FormTxt), zde však neimportujeme a používáme tuto třídu jako lokální
 class Ciselnik(object):
     ctrl = '(Ctrl+click vybere více možností současně)'
     err_vyber = 'Vyber jednu nebo více možností'
     err_neco = 'Údaj je povinný'
 
+# bylo přidáno i do plugin_mz, zde však neimportujeme a používáme tuto třídu jako lokální
 class IS_NOT_EMPTY_(IS_NOT_EMPTY):
     def __init__(self):
         super(IS_NOT_EMPTY_, self).__init__(error_message=Ciselnik.err_neco)
 
+# bylo přidáno i do plugin_mz, zde však neimportujeme a používáme tuto třídu jako lokální
 class IS_IN_DB_(IS_IN_DB):
     def __init__(self, *args, **kwargs):
         super(IS_IN_DB_, self).__init__(*args, error_message=Ciselnik.err_vyber, **kwargs)
