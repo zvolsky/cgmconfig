@@ -3,7 +3,7 @@
 # mz support for Web2py application
 # version 0.1 (older - probably can be rewritten by newer one)
 
-from gluon import current, T
+from gluon import current
 
 from gluon.html import SPAN, DIV, CAT, UL, TEXTAREA, INPUT, LABEL, SELECT, P
 from gluon.sqlhtml import add_class
