@@ -48,6 +48,8 @@ def nacti1():
 
     with open(os.path.join(request.folder, 'uploads', configfile.configfile)) as cfg:
         content = cfg.read()
+    if content[:3] == chr(0xef)+chr(0xbb)+chr(0xbf):  # remove Byte order mark if present
+        content = content[3:]
     configfile.update_record(cfcontent=content)
     redirect(URL('nacti2'))
 
