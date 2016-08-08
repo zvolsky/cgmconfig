@@ -149,7 +149,12 @@ def nacti3():
                     dspectralrange = dataset.get('spectralRange', [None, None])
                     dspectralresolution = dataset.get('spectralResolution')
                     if type(dspectralresolution) not in (tuple, list):
-                        dspectralresolution = [dspectralresolution, None]
+                        dspectralresolution = [dspectralresolution, dspectralresolution]
+                    elif len(dspectralresolution) == 1:
+                        dspectralresolution = [dspectralresolution[0], dspectralresolution[0]]
+                    elif len(dspectralresolution) == 0:
+                        dspectralresolution = [None, None]
+
                     db.datasets.insert(campaigns_id=campaigns_id,
                             dtitlecs=titcs, dtitleen=titen,
                             ddate=datetime.datetime.strptime(ddate[:16], '%Y-%m-%d %H:%M'), ddatetz=ddate[16:] or 'Z',

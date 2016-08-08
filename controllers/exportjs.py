@@ -126,7 +126,10 @@ def __get_datasets(campaigns_id, dlm):
         if row.dspectralrangefrom and row.dspectralrangeto:
             optional += __add_optional('spectralRange', '[%s, %s]' % (row.dspectralrangefrom, row.dspectralrangeto), dlm)
         if row.dspectralresolutionfrom and row.dspectralresolutionto:
-            optional += __add_optional('spectralResolution', '[%s, %s]' % (row.dspectralresolutionfrom, row.dspectralresolutionto), dlm)
+            if row.dspectralresolutionfrom == row.dspectralresolutionto:
+                optional += __add_optional('spectralResolution', '%s' % row.dspectralresolutionfrom, dlm)
+            else:
+                optional += __add_optional('spectralResolution', '[%s, %s]' % (row.dspectralresolutionfrom, row.dspectralresolutionto), dlm)
         if row.dnumberofbands:
             optional += __add_optional('numberOfBands', '%s' % row.dnumberofbands, dlm)
         if row.ddescriptioncs or row.ddescriptionen:

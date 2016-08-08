@@ -5,12 +5,7 @@ cg.config = {
   "namespacePrefix": "cge",
   "baseLayers": [
     "osm",
-    "omq",
-    "gmap",
-    "gsat",
-    "ghyb",
-    "gter"
-  ],
+      ],
   "dataTypes": [
     {
       "id": "hyper",
@@ -169,12 +164,12 @@ cg.config = {
   "places": [
     {
       "title": "Bílý Kříž",
-      "baseLayer": "gmap",
+      "baseLayer": "osm",
       "extent": [
-        18.532,
-        49.49,
-        18.545,
-        49.508
+        18.550,
+        49.462,
+        18.557,
+        49.528
       ],
       "campaigns": [
         {
@@ -261,6 +256,64 @@ cg.config = {
              }
            ]
          },
+          {
+          "dateRange": [
+            "2015-06-05",
+            "2015-06-05"
+          ],
+          "datasets": [
+            {
+              "title": "HS 08:15 1 m",
+              "date": "2016-07-13 08:15Z",
+              "dataTypes": [
+                "hyper"
+              ],
+              "ekosystemTypes": [
+                "les"
+              ],
+              "spatialResolution": 1,
+              "spectralRange": [
+                370,
+                1040
+              ],
+              "spectralResolution": 15,
+              "numberOfBands": 72,
+              "layer": {
+                "type": "gwc",
+                "sublayers": "bily_kriz_CASI_05062015"
+              }
+            }
+          ]
+        },
+        {
+          "dateRange": [
+            "2015-08-31",
+            "2015-08-31"
+          ],
+          "datasets": [
+            {
+              "title": "HS 08:15 1 m",
+              "date": "2016-07-13 08:15Z",
+              "dataTypes": [
+                "hyper"
+              ],
+              "ekosystemTypes": [
+                "les"
+              ],
+              "spatialResolution": 1,
+              "spectralRange": [
+                370,
+                1040
+              ],
+              "spectralResolution": 15,
+              "numberOfBands": 72,
+              "layer": {
+                "type": "gwc",
+                "sublayers": "bily_kriz_CASI_31082015"
+              }
+            }
+          ]
+        },
         {
           "dateRange": [
             "2013-09-08",
@@ -381,7 +434,7 @@ cg.config = {
     },
     {
       "title": "Březník",
-      "baseLayer": "gmap",
+      "baseLayer": "osm",
       "extent": [
         13.403,
         48.938,
@@ -501,12 +554,12 @@ cg.config = {
     },
     {
       "title": "Březová",
-      "baseLayer": "gmap",
+      "baseLayer": "osm",
       "extent": [
-        16.409,
-        49.636,
-        16.508,
-        49.695
+        16.275,
+        49.591,
+        16.637,
+        49.829
       ],
       "campaigns": [
         {
@@ -565,7 +618,7 @@ cg.config = {
     },
     {
       "title": "Brno - Kraví hora",
-      "baseLayer": "gmap",
+      "baseLayer": "osm",
       "extent": [
         16.569,
         49.194,
@@ -600,7 +653,7 @@ cg.config = {
     },
     {
       "title": "Brno přehrada",
-      "baseLayer": "gmap",
+      "baseLayer": "osm",
       "extent": [
         16.418,
         49.218,
@@ -636,12 +689,41 @@ cg.config = {
               }
             }
           ]
-        }
+        },
+        {
+          "dateRange": [
+            "2015-10-01",
+            "2015-10-01"
+          ],
+          "datasets": [
+            {
+              "title": "HS 10:15 1 m",
+              "date": "2016-07-13 08:45Z",
+              "dataTypes": [
+                "hyper"
+              ],
+              "ekosystemTypes": [
+                "voda"
+              ],
+              "spatialResolution": 1,
+              "spectralRange": [
+                365,
+                1050
+              ],
+              "spectralResolution": 10,
+              "numberOfBands": 96,
+              "layer": {
+                "type": "gwc",
+                "sublayers": "prehrada_CASI_01102015"
+              }
+            }
+          ]
+   		 }
       ]
     },
     {
       "title": "Černá Hora",
-      "baseLayer": "gmap",
+      "baseLayer": "osm",
       "extent": [
         13.48,
         48.944,
@@ -702,7 +784,7 @@ cg.config = {
     },
     {
       "title": "Červík",
-      "baseLayer": "gmap",
+      "baseLayer": "osm",
       "extent": [
         18.371,
         49.44,
@@ -739,13 +821,218 @@ cg.config = {
       ]
     },
     {
-      "title": "Dalešice",
-      "baseLayer": "gmap",
+      "title": "Bulhary",
+      "baseLayer": "osm",
       "extent": [
-        15.997,
-        49.206,
-        16.16,
-        49.092
+        16.701,
+        48.788,
+        16.80,
+        48.860
+      ],
+      "campaigns": [
+        {
+          "dateRange": [
+            "2015-10-02",
+            "2015-10-02"
+          ],
+          "datasets": [
+            {
+              "title": "HS 10:15 1 m",
+              "date": "2016-07-13 08:45Z",
+              "dataTypes": [
+                "hyper"
+              ],
+              "ekosystemTypes": [
+                "agro"
+              ],
+              "spatialResolution": 1,
+              "spectralRange": [
+                365,
+                1050
+              ],
+              "spectralResolution": 10,
+              "numberOfBands": 72,
+              "layer": {
+                "type": "gwc",
+                "sublayers": "bulhary_CASI_02102015"
+              }
+            }
+          ]
+   		 }
+   	  ]
+	},
+	{
+      "title": "Mušov",
+      "baseLayer": "osm",
+      "extent": [
+        16.541,
+        48.831,
+        16.625,
+        48.933
+      ],
+      "campaigns": [
+        {
+          "dateRange": [
+            "2015-08-10",
+            "2015-08-10"
+          ],
+          "datasets": [
+            {
+              "title": "HS 10:15 1 m",
+              "date": "2016-07-13 08:45Z",
+              "dataTypes": [
+                "hyper"
+              ],
+              "ekosystemTypes": [
+                "agro"
+              ],
+              "spatialResolution": 1,
+              "spectralRange": [
+                365,
+                1050
+              ],
+              "spectralResolution": 10,
+              "numberOfBands": 72,
+              "layer": {
+                "type": "gwc",
+                "sublayers": "musov_05_CASI_10082015"
+              }
+            }
+          ]
+   		 }
+   	  ]
+	},
+	{
+      "title": "Šardice",
+      "baseLayer": "osm",
+      "extent": [
+        16.969,
+        48.918,
+        17.065,
+        48.970
+      ],
+      "campaigns": [
+        {
+          "dateRange": [
+            "2015-09-21",
+            "2015-09-21"
+          ],
+          "datasets": [
+            {
+              "title": "HS 10:15 1 m",
+              "date": "2016-07-13 08:45Z",
+              "dataTypes": [
+                "hyper"
+              ],
+              "ekosystemTypes": [
+                "agro"
+              ],
+              "spatialResolution": 1,
+              "spectralRange": [
+                365,
+                1050
+              ],
+              "spectralResolution": 10,
+              "numberOfBands": 72,
+              "layer": {
+                "type": "gwc",
+                "sublayers": "vumop_sardice_CASI_21092015"
+              }
+            }
+          ]
+   		 }
+   	  ]
+	},
+	{
+      "title": "Šumava",
+      "baseLayer": "osm",
+      "extent": [
+        13.046,
+        48.624,
+        14.173,
+        49.265
+      ],
+      "campaigns": [
+        {
+          "dateRange": [
+            "2015-06-06",
+            "2015-06-06"
+          ],
+          "datasets": [
+            {
+              "title": "HS 10:15 1 m",
+              "date": "2016-07-13 08:45Z",
+              "dataTypes": [
+                "hyper"
+              ],
+              "ekosystemTypes": [
+                "les"
+              ],
+              "spatialResolution": 2.5,
+              "spectralRange": [
+                365,
+                1050
+              ],
+              "spectralResolution": 10,
+              "numberOfBands": 96,
+              "layer": {
+                "type": "gwc",
+                "sublayers": "sunap_CASI_06062015"
+              }
+            }
+          ]
+   		 }
+   	  ]
+	},
+	{
+      "title": "Klučov 2",
+      "baseLayer": "osm",
+      "extent": [
+        14.863,
+        50.070,
+        14.913,
+        50.125
+      ],
+      "campaigns": [
+        {
+          "dateRange": [
+            "2005-05-07",
+            "2005-05-07"
+          ],
+          "datasets": [
+            {
+              "title": "HS 10:15 1 m",
+              "date": "2016-07-13 08:45Z",
+              "dataTypes": [
+                "hyper"
+              ],
+              "ekosystemTypes": [
+                "agro"
+              ],
+              "spatialResolution": 1,
+              "spectralRange": [
+                365,
+                1050
+              ],
+              "spectralResolution": 10,
+              "numberOfBands": 72,
+              "layer": {
+                "type": "gwc",
+                "sublayers": "vumop_chrast_CASI_07052015"
+              }
+            }
+          ]
+   		 }
+   	  ]
+	},
+    {
+      "title": "Dalešice",
+      "baseLayer": "osm",
+      "extent": [
+        15.963,
+        49.089,
+        16.212,
+        49.219
       ],
       "campaigns": [
         {
@@ -781,7 +1068,7 @@ cg.config = {
     },
     {
       "title": "Domanínek",
-      "baseLayer": "gmap",
+      "baseLayer": "osm",
       "extent": [
         16.211,
         49.54,
@@ -872,7 +1159,7 @@ cg.config = {
     },
     {
       "title": "Horní Libochová",
-      "baseLayer": "gmap",
+      "baseLayer": "osm",
       "extent": [
         16.14,
         49.417,
@@ -913,7 +1200,7 @@ cg.config = {
     },
     {
       "title": "Ivanovice",
-      "baseLayer": "gmap",
+      "baseLayer": "osm",
       "extent": [
         17.374,
         49.312,
@@ -954,7 +1241,7 @@ cg.config = {
     },
     {
       "title": "Jenín",
-      "baseLayer": "gmap",
+      "baseLayer": "osm",
       "extent": [
         14.37,
         48.609,
@@ -1085,7 +1372,7 @@ cg.config = {
     },
     {
       "title": "Jinačovice",
-      "baseLayer": "gmap",
+      "baseLayer": "osm",
       "extent": [
         16.5,
         49.25,
@@ -1123,7 +1410,7 @@ cg.config = {
     },
     {
       "title": "Kopaniny, Dehtáře",
-      "baseLayer": "gmap",
+      "baseLayer": "osm",
       "extent": [
         15.152,
         49.429,
@@ -1199,7 +1486,7 @@ cg.config = {
     },
     {
       "title": "Kotvrdovice",
-      "baseLayer": "gmap",
+      "baseLayer": "osm",
       "extent": [
         16.749,
         49.34,
@@ -1237,7 +1524,7 @@ cg.config = {
     },
     {
       "title": "Křešín u Pacova",
-      "baseLayer": "gmap",
+      "baseLayer": "osm",
       "extent": [
         15.06,
         49.581,
@@ -1275,12 +1562,12 @@ cg.config = {
     },
     {
       "title": "Lanžhot",
-      "baseLayer": "gmap",
+      "baseLayer": "osm",
       "extent": [
-        16.872,
-        48.734,
-        17.051,
-        48.612
+        16.905,
+        48.604,
+        16.994,
+        48.722
       ],
       "campaigns": [
         {
@@ -1312,6 +1599,37 @@ cg.config = {
         },
         {
           "dateRange": [
+            "2015-10-08",
+            "2015-10-08"
+          ],
+          "datasets": [
+            {
+              "title": "HS 08:15 2.5m",
+              "date": "2016-05-25 08:15Z",
+              "dataTypes": [
+                "hyper"
+              ],
+              "ekosystemTypes": [
+                "les"
+              ],
+              "spatialResolution": 2.5,
+              "spectralRange": [
+                400,
+                980
+              ],
+              "spectralResolution": [
+                7
+              ],
+              "numberOfBands": 48,
+              "layer": {
+                "type": "gwc",
+                "sublayers": "lanzhot_05_CASI_10082015"
+              }
+            }
+          ]
+        },
+        {
+          "dateRange": [
             "2014-11-05",
             "2014-11-05"
           ],
@@ -1337,7 +1655,7 @@ cg.config = {
     },
     {
       "title": "letiště - Brno",
-      "baseLayer": "gmap",
+      "baseLayer": "osm",
       "extent": [
         16.669,
         49.134,
@@ -1378,7 +1696,7 @@ cg.config = {
     },
     {
       "title": "Lipno",
-      "baseLayer": "gmap",
+      "baseLayer": "osm",
       "extent": [
         14.205,
         48.628,
@@ -1422,7 +1740,7 @@ cg.config = {
         "cs": "Mlýnský potok",
         "en": "Mlýnský creek"
       },
-      "baseLayer": "gmap",
+      "baseLayer": "osm",
       "extent": [
         14.072,
         48.587,
@@ -1547,7 +1865,7 @@ cg.config = {
     },
     {
       "title": "Otnice",
-      "baseLayer": "gmap",
+      "baseLayer": "osm",
       "extent": [
         16.787,
         49.075,
@@ -1572,8 +1890,8 @@ cg.config = {
               ],
               "spatialResolution": 1,
               "spectralRange": [
-                370,
-                1040
+                365,
+                1050
               ],
               "spectralResolution": 7,
               "numberOfBands": 96,
@@ -1587,8 +1905,49 @@ cg.config = {
       ]
     },
     {
+      "title": "Otnice 2",
+      "baseLayer": "osm",
+      "extent": [
+        16.771,
+        48.976,
+        16.870,
+        49.108
+      ],
+      "campaigns": [
+        {
+          "dateRange": [
+            "2015-09-21",
+            "2015-09-21"
+          ],
+          "datasets": [
+            {
+              "title": "HS 08:45 1 m",
+              "date": "2016-07-14 08:45Z",
+              "dataTypes": [
+                "hyper"
+              ],
+              "ekosystemTypes": [
+                "les"
+              ],
+              "spatialResolution": 1,
+              "spectralRange": [
+                365,
+                1050
+              ],
+              "spectralResolution": 7,
+              "numberOfBands": 72,
+              "layer": {
+                "type": "gwc",
+                "sublayers": "vumop_otnice_CASI_21092015"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
       "title": "Polkovice",
-      "baseLayer": "gmap",
+      "baseLayer": "osm",
       "extent": [
         17.235,
         49.378,
@@ -1613,8 +1972,8 @@ cg.config = {
               ],
               "spatialResolution": 1,
               "spectralRange": [
-                370,
-                1040
+                365,
+                1050
               ],
               "spectralResolution": 7,
               "numberOfBands": 96,
@@ -1624,12 +1983,41 @@ cg.config = {
               }
             }
           ]
+        },
+        {
+          "dateRange": [
+            "2015-06-05",
+            "2015-06-05"
+          ],
+          "datasets": [
+            {
+              "title": "HS 08:15 1 m",
+              "date": "2016-07-13 08:15Z",
+              "dataTypes": [
+                "hyper"
+              ],
+              "ekosystemTypes": [
+                "agro"
+              ],
+              "spatialResolution": 1,
+              "spectralRange": [
+                365,
+                1050
+              ],
+              "spectralResolution": 15,
+              "numberOfBands": 96,
+              "layer": {
+                "type": "gwc",
+                "sublayers": "polkovice_CASI_05062015"
+              }
+            }
+          ]
         }
       ]
     },
     {
       "title": "Rájec-Jestřebí",
-      "baseLayer": "gmap",
+      "baseLayer": "osm",
       "extent": [
         16.673,
         49.43,
@@ -1665,6 +2053,64 @@ cg.config = {
         },
         {
           "dateRange": [
+            "2015-10-01",
+            "2015-10-01"
+          ],
+          "datasets": [
+            {
+              "title": "HS 08:15 1 m",
+              "date": "2016-07-13 08:15Z",
+              "dataTypes": [
+                "hyper"
+              ],
+              "ekosystemTypes": [
+                "agro"
+              ],
+              "spatialResolution": 1,
+              "spectralRange": [
+                365,
+                1050
+              ],
+              "spectralResolution": 15,
+              "numberOfBands": 72,
+              "layer": {
+                "type": "gwc",
+                "sublayers": "rajec_1_CASI_01102015"
+              }
+            }
+          ]
+        },
+         {
+          "dateRange": [
+            "2015-10-01",
+            "2015-10-01"
+          ],
+          "datasets": [
+            {
+              "title": "HS 08:15 0,5 m",
+              "date": "2016-07-13 08:15Z",
+              "dataTypes": [
+                "hyper"
+              ],
+              "ekosystemTypes": [
+                "agro"
+              ],
+              "spatialResolution": 1,
+              "spectralRange": [
+                365,
+                1050
+              ],
+              "spectralResolution": 15,
+              "numberOfBands": 48,
+              "layer": {
+                "type": "gwc",
+                "sublayers": "rajec_05_CASI_01102015"
+              }
+            }
+          ]
+        },
+        {
+          "dateRange": [
             "2014-11-05",
             "2014-11-05"
           ],
@@ -1690,7 +2136,7 @@ cg.config = {
     },
     {
       "title": "Rozkoš",
-      "baseLayer": "gmap",
+      "baseLayer": "osm",
       "extent": [
         16.026,
         50.351,
@@ -1715,14 +2161,14 @@ cg.config = {
               ],
               "spatialResolution": 5,
               "spectralRange": [
-                400,
+                380,
                 1000
               ],
               "spectralResolution": 10,
               "numberOfBands": 260,
               "layer": {
                 "type": "gwc",
-                "sublayers": "rozkos_CASI_18092014"
+                "sublayers": "Rozkos_AISA_20140918"
               }
             }
           ]
@@ -1731,7 +2177,7 @@ cg.config = {
     },
     {
       "title": "Seč",
-      "baseLayer": "gmap",
+      "baseLayer": "osm",
       "extent": [
         15.623,
         49.8,
@@ -1756,14 +2202,14 @@ cg.config = {
               ],
               "spatialResolution": 5,
               "spectralRange": [
-                400,
+                380,
                 1000
               ],
               "spectralResolution": 10,
               "numberOfBands": 260,
               "layer": {
                 "type": "gwc",
-                "sublayers": "sec_CASI_18092014"
+                "sublayers": "Sec_AISA_20140918"
               }
             }
           ]
@@ -1772,7 +2218,7 @@ cg.config = {
     },
     {
       "title": "Smrčina",
-      "baseLayer": "gmap",
+      "baseLayer": "osm",
       "extent": [
         13.901,
         48.722,
@@ -1880,7 +2326,7 @@ cg.config = {
     },
     {
       "title": "Štítná nad Vláří",
-      "baseLayer": "gmap",
+      "baseLayer": "osm",
       "extent": [
         17.96,
         49.024,
@@ -2029,6 +2475,35 @@ cg.config = {
         },
         {
           "dateRange": [
+            "2015-08-10",
+            "2015-08-10"
+          ],
+          "datasets": [
+            {
+              "title": "HS 08:45 1.0m",
+              "date": "2015-08-10 08:45Z",
+              "dataTypes": [
+                "hyper"
+              ],
+              "ekosystemTypes": [
+                "les"
+              ],
+              "spatialResolution": 1,
+              "spectralRange": [
+                370,
+                1040
+              ],
+              "spectralResolution": 2,
+              "numberOfBands": 72,
+              "layer": {
+                "type": "gwc",
+                "sublayers": "stitna_CASI_10082015"
+              }
+            }
+          ]
+        },
+        {
+          "dateRange": [
             "2014-11-05",
             "2014-11-05"
           ],
@@ -2053,8 +2528,8 @@ cg.config = {
       ]
     },
     {
-      "title": "Těšínské beskydy",
-      "baseLayer": "gmap",
+      "title": "Těšínské Beskydy",
+      "baseLayer": "osm",
       "extent": [
         18.729,
         49.552,
@@ -2117,12 +2592,41 @@ cg.config = {
               "description": "Data pořídil ČÚZK"
             }
           ]
+        },
+        {
+          "dateRange": [
+            "2015-06-05",
+            "2015-06-05"
+          ],
+          "datasets": [
+            {
+              "title": "HS 08:45 1.0m",
+              "date": "2016-06-02 08:45Z",
+              "dataTypes": [
+                "hyper"
+              ],
+              "ekosystemTypes": [
+                "les"
+              ],
+              "spatialResolution": 1,
+              "spectralRange": [
+                370,
+                1040
+              ],
+              "spectralResolution": 7,
+              "numberOfBands": 96,
+              "layer": {
+                "type": "gwc",
+                "sublayers": "tesinske_beskydy_CASI_05062015"
+              }
+            }
+          ]
         }
       ]
     },
     {
       "title": "Třeboňsko",
-      "baseLayer": "gmap",
+      "baseLayer": "osm",
       "extent": [
         14.75,
         48.98,
@@ -2276,40 +2780,40 @@ cg.config = {
       ]
     },
     {
-      "title": "Vendolí",
-      "baseLayer": "gmap",
+      "title": "Klučov",
+      "baseLayer": "osm",
       "extent": [
-        16.395,
-        49.723,
-        16.414,
-        49.75
-      ],
+        14.880,
+        50.063,
+        14.940,
+        50.105
+        ],
       "campaigns": [
         {
           "dateRange": [
-            "2013-03-07",
-            "2013-03-07"
+            "2015-05-07",
+            "2015-05-07"
           ],
           "datasets": [
             {
               "title": "HS 08:45 1.0m",
-              "date": "2014-06-09 08:45Z",
+              "date": "2016-07-14 08:45Z",
               "dataTypes": [
                 "hyper"
               ],
               "ekosystemTypes": [
-                "les"
+                "agro"
               ],
               "spatialResolution": 1,
               "spectralRange": [
-                370,
-                1040
+                365,
+                1050
               ],
               "spectralResolution": 7,
-              "numberOfBands": 96,
+              "numberOfBands": 48,
               "layer": {
                 "type": "gwc",
-                "sublayers": "vendoli_CASI_09062014_N"
+                "sublayers": "vumop_klucov_CASI_07052015"
               }
             }
           ]
@@ -2318,7 +2822,7 @@ cg.config = {
     },
     {
       "title": "Veselá",
-      "baseLayer": "gmap",
+      "baseLayer": "osm",
       "extent": [
         15.21,
         49.312,
@@ -2427,49 +2931,8 @@ cg.config = {
       ]
     },
     {
-      "title": "VUMOP Bylany",
-      "baseLayer": "gmap",
-      "extent": [
-        14.903,
-        50.044,
-        14.925,
-        50.095
-      ],
-      "campaigns": [
-        {
-          "dateRange": [
-            "2015-05-07",
-            "2015-05-07"
-          ],
-          "datasets": [
-            {
-              "title": "HS 10:05 1 m",
-              "date": "2015-05-07 08:05Z",
-              "dataTypes": [
-                "hyper"
-              ],
-              "ekosystemTypes": [
-                "agro"
-              ],
-              "spatialResolution": 1,
-              "spectralRange": [
-                370,
-                1040
-              ],
-              "spectralResolution": 7,
-              "numberOfBands": 72,
-              "layer": {
-                "type": "gwc",
-                "sublayers": "VUMOP_Z_100503_3"
-              }
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "title": "VUMOP Hvězdonice",
-      "baseLayer": "gmap",
+      "title": "Přestavlky u Čerčan",
+      "baseLayer": "osm",
       "extent": [
         14.72,
         49.848,
@@ -2494,55 +2957,14 @@ cg.config = {
               ],
               "spatialResolution": 1,
               "spectralRange": [
-                370,
-                1040
+                365,
+                1050
               ],
               "spectralResolution": 7,
               "numberOfBands": 72,
               "layer": {
                 "type": "gwc",
-                "sublayers": "VUMOP_Z_102328_1_1"
-              }
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "title": "VUMOP Kounice",
-      "baseLayer": "gmap",
-      "extent": [
-        14.873,
-        50.085,
-        14.896,
-        50.129
-      ],
-      "campaigns": [
-        {
-          "dateRange": [
-            "2015-05-07",
-            "2015-05-07"
-          ],
-          "datasets": [
-            {
-              "title": "HS 10:11 1 m",
-              "date": "2015-05-07 08:11Z",
-              "dataTypes": [
-                "hyper"
-              ],
-              "ekosystemTypes": [
-                "agro"
-              ],
-              "spatialResolution": 1,
-              "spectralRange": [
-                370,
-                1040
-              ],
-              "spectralResolution": 7,
-              "numberOfBands": 72,
-              "layer": {
-                "type": "gwc",
-                "sublayers": "VUMOP_Z_101113_2"
+                "sublayers": "vumop_doubravice_CASI_07052015"
               }
             }
           ]
@@ -2551,7 +2973,7 @@ cg.config = {
     },
     {
       "title": "Výsypka - důl Jiří, Sokolovská uhelná a.s.",
-      "baseLayer": "gmap",
+      "baseLayer": "osm",
       "extent": [
         12.621,
         50.226,
@@ -2700,8 +3122,8 @@ cg.config = {
       ]
     },
     {
-      "title": "Židlochovice",
-      "baseLayer": "gmap",
+      "title": "Žabčice",
+      "baseLayer": "osm",
       "extent": [
         16.595,
         49.015,
