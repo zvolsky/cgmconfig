@@ -70,6 +70,8 @@ def nacti2():
     return dict(form=form, msg=(MSG_PROC, MSG_BACK))
 
 def nacti3():
+    TIT_UNKNOWN = '? (before assignment in dataset cycle)'  # initialized for error reporting
+
     def cnvdate(yyyymmdd):
         return datetime.datetime.strptime(yyyymmdd, '%Y-%m-%d').date()
 
@@ -106,71 +108,86 @@ def nacti3():
         ekosystemtypes = {ekosystemtype.etid: ekosystemtype.id for ekosystemtype in ekosystemtypes}
 
         for place in simplejson.loads(request.vars.JSONplaces):
-            tit = place['title']
+            pltit = place['title']
             try:
-                titen = tit.get('en', '')
-                titcs = tit.get('cs', titen)
+                pltiten = pltit.get('en', '')
+                pltitcs = pltit.get('cs', pltiten)
             except:
-                titen = ''
-                titcs = tit
-            extent = place['extent']
-            places_id = db.places.insert(baselayers_id=baselayers[place['baseLayer']],
-                        ptitlecs=titcs, ptitleen=titen,
-                        pextentl=extent[0], pextentb=extent[1], pextentr=extent[2], pextentt=extent[3])
-            cnt_campaign = 0
-            for campaign in place['campaigns']:
-                daterange = campaign['dateRange']
-                try:
-                    date0 = cnvdate(daterange[0])
-                    date1 = cnvdate(daterange[1])
-                except:
-                    date0 = cnvdate(daterange)
-                    date1 = None
-                campaigns_id = db.campaigns.insert(places_id=places_id,
-                        cdaterange=date0, cdaterange2=date1)
-                cnt_campaign += 1
-                cnt_dataset = 0
-                for dataset in campaign['datasets']:
-                    tit = dataset['title']
-                    des = dataset.get('description')
-                    try:
-                        titen = tit.get('en', '')
-                        titcs = tit.get('cs', titen)
-                    except:
-                        titen = ''
-                        titcs = tit
-                    try:
-                        desen = des.get('en', '')
-                        descs = des.get('cs', desen)
-                    except:
-                        desen = None
-                        descs = des
-                    ddate = dataset['date']
-                    dspectralrange = dataset.get('spectralRange', [None, None])
-                    dspectralresolution = dataset.get('spectralResolution')
-                    if type(dspectralresolution) not in (tuple, list):
-                        dspectralresolution = [dspectralresolution, dspectralresolution]
-                    elif len(dspectralresolution) == 1:
-                        dspectralresolution = [dspectralresolution[0], dspectralresolution[0]]
-                    elif len(dspectralresolution) == 0:
-                        dspectralresolution = [None, None]
+                pltiten = ''
+                pltitcs = pltit
+            titcs = TIT_UNKNOWN  # for possible exception reporting
 
-                    db.datasets.insert(campaigns_id=campaigns_id,
-                            dtitlecs=titcs, dtitleen=titen,
-                            ddate=datetime.datetime.strptime(ddate[:16], '%Y-%m-%d %H:%M'), ddatetz=ddate[16:] or 'Z',
-                            datatypes_id=[datatypes[datatype] for datatype in dataset['dataTypes']],
-                            ekosystemtypes_id=[ekosystemtypes[ekosystemtype] for ekosystemtype in dataset['ekosystemTypes']],
-                            dlayer=dataset['layer']['sublayers'],
-                            dspatialresolution=dataset.get('spatialResolution'),
-                            dpointspermeter=dataset.get('pointsPerMeter'),
-                            dspectralrangefrom=dspectralrange[0], dspectralrangeto=dspectralrange[1],
-                            dspectralresolutionfrom=dspectralresolution[0], dspectralresolutionto=dspectralresolution[1],
-                            dnumberofbands=dataset.get('numberOfBands'),
-                            ddescriptioncs=descs, ddescriptionen=desen
-                            )
-                    cnt_dataset += 1
-                db.campaigns[campaigns_id] = dict(cnt_dataset=cnt_dataset)
-            db.places[places_id] = dict(cnt_campaign=cnt_campaign)
+            try:  # to report "place" in case of error
+                extent = place['extent']
+                places_id = db.places.insert(baselayers_id=baselayers[place['baseLayer']],
+                            ptitlecs=pltitcs, ptitleen=pltiten,
+                            pextentl=extent[0], pextentb=extent[1], pextentr=extent[2], pextentt=extent[3])
+                cnt_campaign = 0
+                for campaign in place['campaigns']:
+                    titcs = TIT_UNKNOWN  # for possible exception reporting
+                    daterange = campaign['dateRange']
+                    try:
+                        date0 = cnvdate(daterange[0])
+                        date1 = cnvdate(daterange[1])
+                    except:
+                        date0 = cnvdate(daterange)
+                        date1 = None
+                    campaigns_id = db.campaigns.insert(places_id=places_id,
+                            cdaterange=date0, cdaterange2=date1)
+                    cnt_campaign += 1
+                    cnt_dataset = 0
+                    for dataset in campaign['datasets']:
+                        titcs = TIT_UNKNOWN  # for possible exception reporting
+                        tit = dataset['title']
+                        des = dataset.get('description')
+                        try:
+                            titen = tit.get('en', '')
+                            titcs = tit.get('cs', titen)
+                        except:
+                            titen = ''
+                            titcs = tit
+                        try:
+                            desen = des.get('en', '')
+                            descs = des.get('cs', desen)
+                        except:
+                            desen = None
+                            descs = des
+                        ddate = dataset['date']
+                        dspectralrange = dataset.get('spectralRange', [None, None])
+                        dspectralresolution = dataset.get('spectralResolution')
+                        if type(dspectralresolution) not in (tuple, list):
+                            dspectralresolution = [dspectralresolution, dspectralresolution]
+                        elif len(dspectralresolution) == 1:
+                            dspectralresolution = [dspectralresolution[0], dspectralresolution[0]]
+                        elif len(dspectralresolution) == 0:
+                            dspectralresolution = [None, None]
+
+                        db.datasets.insert(campaigns_id=campaigns_id,
+                                dtitlecs=titcs, dtitleen=titen,
+                                ddate=datetime.datetime.strptime(ddate[:16], '%Y-%m-%d %H:%M'), ddatetz=ddate[16:] or 'Z',
+                                datatypes_id=[datatypes[datatype] for datatype in dataset['dataTypes']],
+                                ekosystemtypes_id=[ekosystemtypes[ekosystemtype] for ekosystemtype in dataset['ekosystemTypes']],
+                                dlayer=dataset['layer']['sublayers'],
+                                dspatialresolution=dataset.get('spatialResolution'),
+                                dpointspermeter=dataset.get('pointsPerMeter'),
+                                dspectralrangefrom=dspectralrange[0], dspectralrangeto=dspectralrange[1],
+                                dspectralresolutionfrom=dspectralresolution[0], dspectralresolutionto=dspectralresolution[1],
+                                dnumberofbands=dataset.get('numberOfBands'),
+                                ddescriptioncs=descs, ddescriptionen=desen
+                                )
+                        cnt_dataset += 1
+                    db.campaigns[campaigns_id] = dict(cnt_dataset=cnt_dataset)
+                db.places[places_id] = dict(cnt_campaign=cnt_campaign)
+
+            except Exception as exc:
+                import sys
+                import traceback
+
+                errmsg = "Failed to import place: %s, dataset: %s" % (pltitcs, titcs)
+                exc_type, exc_value, exc_traceback = sys.exc_info()
+                errmsg += 3*'\n' + '\n'.join(traceback.format_exception(exc_type, exc_value, exc_traceback))
+                print errmsg
+                return errmsg.replace('\n', '<br>')
 
         db(db.configfile).update(cfparsed_ok=True)
         redirect(URL('places'))
