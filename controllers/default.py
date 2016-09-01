@@ -14,11 +14,13 @@ MSG_BACK = P(A("opakovat vyhledání a načtení konfiguračního souboru config
                _href="%s" % URL('nacti'), _class="btn btn-link"))
 
 
+@auth.requires_membership('admin')
 def index():
     __nacti_if_nic()
     session.flash = "Data jsou načtena, lze je upravit a stáhnout výsledný config.js. Nebo načti config.js znovu volbou menu Načti."
     redirect(URL('places'))
 
+@auth.requires_membership('admin')
 def nacti():
     form = SQLFORM.factory(Field('configfile', 'upload',
                 uploadfolder = os.path.join(request.folder, 'uploads'),
@@ -33,6 +35,7 @@ def nacti():
 
     return dict(form=form)
 
+@auth.requires_membership('admin')
 def nacti1():
     db.baselayers.truncate('RESTART IDENTITY CASCADE')
     db.datatypes.truncate('RESTART IDENTITY CASCADE')
@@ -53,6 +56,7 @@ def nacti1():
     configfile.update_record(cfcontent=content)
     redirect(URL('nacti2'))
 
+@auth.requires_membership('admin')
 def nacti2():
     configfile = db(db.configfile).select().first()
     if not configfile or not configfile.cfcontent:
@@ -69,6 +73,7 @@ def nacti2():
 
     return dict(form=form, msg=(MSG_PROC, MSG_BACK))
 
+@auth.requires_membership('admin')
 def nacti3():
     TIT_UNKNOWN = '? (before assignment in dataset cycle)'  # initialized for error reporting
 
@@ -194,6 +199,7 @@ def nacti3():
 
     return dict(js=configfile.cfcontent, form=form, msg=(MSG_PROC, MSG_BACK))
 
+@auth.requires_membership('admin')
 def places():
     def oncreate(form):
         if form.table._tablename == 'campaigns':
@@ -236,6 +242,7 @@ def places():
             )
     return dict(grid=grid)
 
+@auth.requires_membership('admin')
 def baselayers():
     __nacti_if_nic()
     grid = SQLFORM.grid(db.baselayers,
@@ -245,6 +252,7 @@ def baselayers():
             )
     return dict(grid=grid, hdr='baselayers')
 
+@auth.requires_membership('admin')
 def datatypes():
     __nacti_if_nic()
     grid = SQLFORM.grid(db.datatypes,
@@ -255,6 +263,7 @@ def datatypes():
     response.view = 'default/baselayers.html'
     return dict(grid=grid, hdr='datatypes')
 
+@auth.requires_membership('admin')
 def ekosystemtypes():
     __nacti_if_nic()
     grid = SQLFORM.grid(db.ekosystemtypes,
@@ -273,6 +282,7 @@ def __nacti_if_nic():
         session.flash = "Není načten config.js (chybí data (místa) nebo některý pomocný číselník). Je třeba jej nejprve načíst."
         redirect(URL('nacti'))
 
+@auth.requires_membership('admin')
 def stahni():
     __nacti_if_nic()
     places = db(db.places).select(db.places.id, db.places.ptitlecs, orderby=db.places.id)

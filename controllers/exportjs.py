@@ -11,6 +11,7 @@ datasets = db(db.datasets).select()
 data_dict = {item.id: item.dtid for item in db(db.datatypes).select(db.datatypes.id, db.datatypes.dtid)}
 eko_dict = {item.id: item.etid for item in db(db.ekosystemtypes).select(db.ekosystemtypes.id, db.ekosystemtypes.etid)}
 
+@auth.requires_membership('admin')
 def stahni2():
     content = db(db.configfile).select(db.configfile.cfcontent).first().cfcontent
 
