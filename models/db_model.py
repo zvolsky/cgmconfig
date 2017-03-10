@@ -50,6 +50,21 @@ db.define_table('datatypes',
         format=lambda r: r.dtid
         )
 
+db.define_table('dt_children',
+        Field('datatypes_id', db.datatypes, requires=IS_NOT_EMPTY_(), writable=False,
+              ondelete='CASCADE',
+              label='children', comment='dataTypes children (pro některé dataTypes: hyper, termo ..)'),
+        Field('dtchid', 'string', length=32, requires=IS_NOT_EMPTY_(), label='id',
+              comment='označení položky'),
+        Field('dtchcs', 'string', length=128, requires=IS_NOT_EMPTY_(), label='cs',
+              comment='český popis'),
+        Field('dtchen', 'string', length=128, label='en',
+              comment='anglický popis / english description'),
+        singular='child',
+        plural='children',
+        format=lambda r: r.dtchid
+        )
+
 db.define_table('ekosystemtypes',
         Field('etid', 'string', length=32, requires=IS_NOT_EMPTY_(), label='id',
               comment='označení položky'),
@@ -140,5 +155,9 @@ db.define_table('datasets',
               comment='popis (bez uvozovek, nepovinné)'),
         Field('ddescriptionen', 'string', length=255, label='description en',
               comment='popis anglicky / description in english (nepovinné)'),
+        Field('dlegendurlcs', 'string', length=255, label='legendUrl',
+              comment='rastrová legenda (bez uvozovek, nepovinné)'),
+        Field('dlegendurlen', 'string', length=255, label='legendUrl en',
+              comment='rastrová legenda anglicky / raster legend in english (nepovinné)'),
         singular='dataset', plural='datasets'
         )

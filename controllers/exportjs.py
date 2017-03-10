@@ -7,6 +7,7 @@ LINESEP = '\r\n'  # pro vystupni config.js
 
 campaigns = db(db.campaigns).select()
 datasets = db(db.datasets).select()
+dt_children = db(db.dt_children).select()
 
 data_dict = {item.id: item.dtid for item in db(db.datatypes).select(db.datatypes.id, db.datatypes.dtid)}
 eko_dict = {item.id: item.etid for item in db(db.ekosystemtypes).select(db.ekosystemtypes.id, db.ekosystemtypes.etid)}
@@ -63,17 +64,17 @@ def __get_intruder(identifier, dlm):
 
     part_separator = ','
     parts = []
-    types_mask = "{ %sid%s: '%s', %stitle%s: {%scs%s: '%s', %sen%s: '%s'} }"
+    types_mask = "{ %sid%s: '%s', %stitle%s: {%scs%s: '%s', %sen%s: '%s'}%s }"
     if identifier == 'baseLayers':
         part_separator = ', '
         parts = ["'%s'" % __esc(row.baselayer) for row in db(db.baselayers).select(db.baselayers.baselayer)]
     elif identifier == 'dataTypes':
         parts = [LINESEP + 4*' ' + types_mask % (
-                    dlm, dlm, __esc(row.dtid), dlm, dlm, dlm, dlm, __esc(row.dtcs), dlm, dlm, __esc(row.dten))
+                    dlm, dlm, __esc(row.dtid), dlm, dlm, dlm, dlm, __esc(row.dtcs), dlm, dlm, __esc(row.dten), __get_dt_children(row.id, dlm))
                  for row in db(db.datatypes).select()]
     elif identifier == 'ekosystemTypes':
         parts = [LINESEP + 4*' ' + types_mask % (
-                    dlm, dlm, __esc(row.etid), dlm, dlm, dlm, dlm, __esc(row.etcs), dlm, dlm, __esc(row.eten))
+                    dlm, dlm, __esc(row.etid), dlm, dlm, dlm, dlm, __esc(row.etcs), dlm, dlm, __esc(row.eten), '')
                  for row in db(db.ekosystemtypes).select()]
     elif identifier == 'places':
         part_separator = ',' + LINESEP
@@ -93,6 +94,24 @@ def __get_intruder(identifier, dlm):
                 )]
 
     return ' [%s]' % part_separator.join(parts)
+
+def __get_dt_children(datatypes_id, dlm):
+    parts = []
+    for row in dt_children.find(lambda row: row.datatypes_id == datatypes_id):
+        parts.append(
+            "%s{%sid%s: %s, %stitle%s: %s}" % (
+                LINESEP + 8 * ' ', dlm, dlm,
+                ("'%s'" % __esc(row.dtchid)),
+                dlm, dlm,
+                ('{cs: \"%s\", en: \"%s\"}' % (__esc(row.dtchcs), __esc(row.dtchen)))
+                if row.dtchen
+                else ('\"%s\"' % __esc(row.dtchcs)),
+            )
+        )
+    if parts:
+        return ',' + LINESEP + 6 * ' ' + '"children": [' + ','.join(parts) + LINESEP + 6 * ' ' + ']'
+    else:
+        return ''
 
 def __get_campaigns(places_id, dlm):
     parts = []
@@ -139,6 +158,12 @@ def __get_datasets(campaigns_id, dlm):
             else:
                 optional += __add_optional('description', '{%scs%s: "%s", %sen%s: "%s"}' % (
                             dlm, dlm, row.ddescriptioncs or '', dlm, dlm, row.ddescriptionen or ''), dlm)
+        if row.dlegendurlcs or row.dlegendurlen:
+            if not row.dlegendurlen:
+                optional += __add_optional('legendUrl', '"%s"' % __esc(row.dlegendurlcs), dlm)
+            else:
+                optional += __add_optional('legendUrl', '{%scs%s: "%s", %sen%s: "%s"}' % (
+                            dlm, dlm, row.dlegendurlcs or '', dlm, dlm, row.dlegendurlen or ''), dlm)
         parts.append(
             "%s{%stitle%s: %s,%sdate%s: \"%s%s\",%sdataTypes%s: %s,%sekosystemTypes%s: %s,%slayer%s: %s%s%s}" % (
                 LINESEP + 12*' ', LINESEP + 14*' ' + dlm, dlm,

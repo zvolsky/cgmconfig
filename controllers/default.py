@@ -37,12 +37,12 @@ def nacti():
 
 @auth.requires_membership('admin')
 def nacti1():
-    db.baselayers.truncate('RESTART IDENTITY CASCADE')
-    db.datatypes.truncate('RESTART IDENTITY CASCADE')
-    db.ekosystemtypes.truncate('RESTART IDENTITY CASCADE')
     db.places.truncate('RESTART IDENTITY CASCADE')
     db.campaigns.truncate('RESTART IDENTITY CASCADE')
     db.datasets.truncate('RESTART IDENTITY CASCADE')
+    db.baselayers.truncate('RESTART IDENTITY CASCADE')
+    db.datatypes.truncate('RESTART IDENTITY CASCADE')
+    db.ekosystemtypes.truncate('RESTART IDENTITY CASCADE')
     db.commit()
 
     configfile = db(db.configfile).select().first()
@@ -97,7 +97,11 @@ def nacti3():
             db.baselayers[0] = dict(baselayer=baselayer)
         for datatype in simplejson.loads(request.vars.JSONdatatypes):
             tit = datatype['title']
-            db.datatypes[0] = dict(dtid=datatype['id'], dtcs=tit['cs'], dten=tit['en'])
+            children = datatype.get('children', [])
+            datatypes_id = db.datatypes.insert(dtid=datatype['id'], dtcs=tit['cs'], dten=tit['en'])
+            for child in children:
+                tit = child['title']
+                db.dt_children[0] = dict(datatypes_id=datatypes_id, dtchid=child['id'], dtchcs=tit['cs'], dtchen=tit['en'])
         for ekosystemtype in simplejson.loads(request.vars.JSONekosystemtypes):
             tit = ekosystemtype['title']
             db.ekosystemtypes[0] = dict(etid=ekosystemtype['id'], etcs=tit['cs'], eten=tit['en'])
@@ -145,6 +149,7 @@ def nacti3():
                         titcs = TIT_UNKNOWN  # for possible exception reporting
                         tit = dataset['title']
                         des = dataset.get('description')
+                        lgu = dataset.get('legendUrl')
                         try:
                             titen = tit.get('en', '')
                             titcs = tit.get('cs', titen)
@@ -157,6 +162,12 @@ def nacti3():
                         except:
                             desen = None
                             descs = des
+                        try:
+                            lguen = lgu.get('en', '')
+                            lgucs = lgu.get('cs', lguen)
+                        except:
+                            lguen = None
+                            lgucs = lgu
                         ddate = dataset['date']
                         dspectralrange = dataset.get('spectralRange', [None, None])
                         dspectralresolution = dataset.get('spectralResolution')
@@ -170,15 +181,16 @@ def nacti3():
                         db.datasets.insert(campaigns_id=campaigns_id,
                                 dtitlecs=titcs, dtitleen=titen,
                                 ddate=datetime.datetime.strptime(ddate[:16], '%Y-%m-%d %H:%M'), ddatetz=ddate[16:] or 'Z',
-                                datatypes_id=[datatypes[datatype] for datatype in dataset['dataTypes']],
-                                ekosystemtypes_id=[ekosystemtypes[ekosystemtype] for ekosystemtype in dataset['ekosystemTypes']],
+                                datatypes_id=[datatypes[datatype.encode('utf-8')] for datatype in dataset['dataTypes']],
+                                ekosystemtypes_id=[ekosystemtypes[ekosystemtype.encode('utf-8')] for ekosystemtype in dataset['ekosystemTypes']],
                                 dlayer=dataset['layer']['sublayers'],
                                 dspatialresolution=dataset.get('spatialResolution'),
                                 dpointspermeter=dataset.get('pointsPerMeter'),
                                 dspectralrangefrom=dspectralrange[0], dspectralrangeto=dspectralrange[1],
                                 dspectralresolutionfrom=dspectralresolution[0], dspectralresolutionto=dspectralresolution[1],
                                 dnumberofbands=dataset.get('numberOfBands'),
-                                ddescriptioncs=descs, ddescriptionen=desen
+                                ddescriptioncs=descs, ddescriptionen=desen,
+                                dlegendurlcs=lgucs, dlegendurlcs=lguen
                                 )
                         cnt_dataset += 1
                     db.campaigns[campaigns_id] = dict(cnt_dataset=cnt_dataset)
@@ -233,7 +245,7 @@ def places():
             formstyle=formstyle_bootstrap3_compact_factory(),
             orderby={'places': 'places.ptitlecs collate `czech`'},
             paginate=200,
-            searchable={'places': True, 'campaigns':False, 'datasets':False},
+            searchable={'places': True, 'campaigns': False, 'datasets': False},
             oncreate=oncreate,
             ondelete=ondelete,
             user_signature=False,
@@ -255,10 +267,12 @@ def baselayers():
 @auth.requires_membership('admin')
 def datatypes():
     __nacti_if_nic()
-    grid = SQLFORM.grid(db.datatypes,
+    grid = SQLFORM.smartgrid(db.datatypes,
+            searchable={'datatypes': True, 'dt_children': False},
             user_signature=False,
             deletable=False,
-            showbuttontext=False
+            showbuttontext=False,
+            divider=2*unichr(160) + '>' + 2*unichr(160)
             )
     response.view = 'default/baselayers.html'
     return dict(grid=grid, hdr='datatypes')
