@@ -318,7 +318,8 @@ def __stahni(query):
     places_w_dataset = set()
     for dataset in datasets:
         places_w_dataset.add(dataset.id)
-    return dict(problems=[place for place in places if place.id not in places_w_dataset])
+    return dict(problems=[place for place in places if place.id not in places_w_dataset],
+                cnt=len(datasets), hidden=db(db.datasets.is_shown == False).count())
 
 def wiki():
     return auth.wiki()
