@@ -298,14 +298,14 @@ def __nacti_if_nic():
 
 @auth.requires_membership('admin')
 def stahni():
-    ret = __stahni(db.datasets)
+    ret = __stahni(db.datasets.is_shown == True)
     ret['bk'] = False
     return ret
 
 @auth.requires_membership('admin')
 def stahni_bk():
     response.view = 'default/stahni.html'
-    ret = __stahni(db.datasets.is_shown == True)
+    ret = __stahni(db.datasets)
     ret['bk'] = True
     return ret
 
@@ -319,7 +319,7 @@ def __stahni(query):
     for dataset in datasets:
         places_w_dataset.add(dataset.id)
     return dict(problems=[place for place in places if place.id not in places_w_dataset],
-                cnt=len(datasets), hidden=db(db.datasets.is_shown == False).count())
+                cnt=len(db(query).select(db.datasets.id)), hidden=db(db.datasets.is_shown == False).count())
 
 def wiki():
     return auth.wiki()

@@ -118,7 +118,7 @@ ds_fields = [
     Field('campaigns_id', db.campaigns, requires=IS_NOT_EMPTY_(), writable=False,
           ondelete='CASCADE',
           label='campaigns', comment='kampaň'),
-    Field('is_shown', 'boolean', requires=IS_NOT_EMPTY_(), default=True,
+    Field('is_shown', 'boolean', notnull=True, default=True,
           label='active?', comment='označené datasety se zobrazí na mapserveru'),
     Field('dtitlecs', 'string', length=255, requires=IS_NOT_EMPTY_(), label='title',
           comment='označení místa (bez uvozovek)'),
