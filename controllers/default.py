@@ -298,9 +298,21 @@ def __nacti_if_nic():
 
 @auth.requires_membership('admin')
 def stahni():
+    ret = __stahni(db.datasets)
+    ret['bk'] = False
+    return ret
+
+@auth.requires_membership('admin')
+def stahni_bk():
+    response.view = 'default/stahni.html'
+    ret = __stahni(db.datasets.is_shown == True)
+    ret['bk'] = True
+    return ret
+
+def __stahni(query):
     __nacti_if_nic()
     places = db(db.places).select(db.places.id, db.places.ptitlecs, orderby=db.places.id)
-    datasets = db(db.datasets).select(db.places.id, distinct=True,
+    datasets = db(query).select(db.places.id, distinct=True,
             join=[db.campaigns.on(db.campaigns.id == db.datasets.campaigns_id),
                 db.places.on(db.places.id == db.campaigns.places_id)])
     places_w_dataset = set()

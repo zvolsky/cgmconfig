@@ -35,7 +35,10 @@ response.menu = [
         ('ekosystemtypes', False, URL('default', 'ekosystemtypes'), []),
     ]),
     ('Místa a kampaně', False, URL('default', 'places'), []),
-    ('Výsledek', False, URL('default', 'stahni'), []),
+    ('Výsledek', False, '#', [
+        ('pro mapserver', False, URL('default', 'stahni'), []),
+        ('pro zálohu (vč. deaktivovaných)', False, URL('default', 'stahni_bk'), []),
+    ]),
 ]
 
 DEVELOPMENT_MENU = request.is_local

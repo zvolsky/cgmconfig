@@ -15,6 +15,14 @@
     </div>
 {{pass}}
 
+<div class="alert alert-info">
+    {{if bk:}}
+        <p>Stažení PRO ZÁLOHU. Deaktivované datasety budou exportovány se speciálním příznakem (soubor nebude čitelný pro mapserver).</p>
+    {{else:}}
+        <p>Stažení PRO MAPSERVER. Deaktivované datasety nebudou exportovány.</p>
+    {{pass}}
+</div>
+
 <p><div class="btn-group">
     <a href="{{=URL('exportjs', 'stahni2')}}?attachment" class="btn btn-primary">Stáhni / Ulož config.js</a>
     <a href="{{=URL('places')}}" class="btn btn-link">Zpět (Místa a kampaně)</a>
