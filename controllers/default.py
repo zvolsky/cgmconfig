@@ -190,7 +190,7 @@ def nacti3():
                                 dspectralresolutionfrom=dspectralresolution[0], dspectralresolutionto=dspectralresolution[1],
                                 dnumberofbands=dataset.get('numberOfBands'),
                                 ddescriptioncs=descs, ddescriptionen=desen,
-                                dlegendurlcs=lgucs, dlegendurlcs=lguen
+                                dlegendurlcs=lgucs, dlegendurlen=lguen
                                 )
                         cnt_dataset += 1
                     db.campaigns[campaigns_id] = dict(cnt_dataset=cnt_dataset)
