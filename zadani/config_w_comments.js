@@ -220,35 +220,32 @@ cg.config = {
                 "sublayers": 'bily_kriz_ORTHO_09072013'
               },
               "spatialResolution": 0.10
-            },
-            {
-              "is_shown": "no",
-              "title": "OP 11:25 0.1m_odin",
-              "date": "2013-10-09 12:25Z",
-              "dataTypes": ['orto'],
-              "ekosystemTypes": ['les'],
-              "layer": {
-                "type": 'gwc',
-                "sublayers": 'bily_kriz_ORTHO_09072013_odin'
-              },
-              "spatialResolution": 0.10
-          }]
-        },
-        {
-          "dateRange": ["2014-07-09", "2014-07-09"],
-          "datasets": [
-            {
-              "is_shown": "no",
-              "title": "louka 11:25 0.1m",
-              "date": "2014-07-09 11:25Z",
-              "dataTypes": ['orto'],
-              "ekosystemTypes": ['les'],
-              "layer": {
-                "type": 'gwc',
-                "sublayers": 'bily_kriz_louka_ORTHO_09072014'
-              },
-              "spatialResolution": 0.10
-            },
+           // {
+           //   "title": "OP 11:25 0.1m_odin",
+           //   "date": "2013-10-09 12:25Z",
+           //   "dataTypes": ['orto'],
+           //   "ekosystemTypes": ['les'],
+           //   "layer": {
+           //     "type": 'gwc',
+           //     "sublayers": 'bily_kriz_ORTHO_09072013_odin'
+           //   },
+           //   "spatialResolution": 0.10
+        //  }]
+        //},
+        //{
+        //  "dateRange": ["2014-07-09", "2014-07-09"],
+        //  "datasets": [
+        //    {
+        //      "title": "louka 11:25 0.1m",
+        //     "date": "2014-07-09 11:25Z",
+        //      "dataTypes": ['orto'],
+        //      "ekosystemTypes": ['les'],
+        //      "layer": {
+        //        "type": 'gwc',
+        //        "sublayers": 'bily_kriz_louka_ORTHO_09072014'
+        //      },
+        //      "spatialResolution": 0.10
+           },
             {
               "title": "les 11:25 0.1m",
               "date": "2014-07-09 11:25Z",
@@ -307,18 +304,17 @@ cg.config = {
         {
           "dateRange": ["2012-10-09", "2012-10-09"],
           "datasets": [
-            {
-              "is_shown": "no",
-              "title": "OP 09:25 0.2m",
-              "date": "2010-10-09 09:25Z",
-              "dataTypes": ['orto'],
-              "ekosystemTypes": ['les'],
-              "layer": {
-                "type": 'gwc',
-                "sublayers": 'breznik_ORTHO_09072010'
-              },
-              "spatialResolution": 0.20
-            },
+            //{
+            //  "title": "OP 09:25 0.2m",
+            //  "date": "2010-10-09 09:25Z",
+            //  "dataTypes": ['orto'],
+            //  "ekosystemTypes": ['les'],
+            //  "layer": {
+            //    "type": 'gwc',
+            //    "sublayers": 'breznik_ORTHO_09072010'
+            //  },
+            //  "spatialResolution": 0.20
+            //},
             {
               "title": "OP 11:30 5 m",
               "date": "2012-10-27 11:30Z",
