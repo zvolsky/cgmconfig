@@ -146,6 +146,7 @@ def nacti3():
                     cnt_campaign += 1
                     cnt_dataset = 0
                     for dataset in campaign['datasets']:
+                        is_shown = dataset.get('is_shown', 'yes') == 'yes'
                         titcs = TIT_UNKNOWN  # for possible exception reporting
                         tit = dataset['title']
                         des = dataset.get('description')
@@ -179,6 +180,7 @@ def nacti3():
                             dspectralresolution = [None, None]
 
                         db.datasets.insert(campaigns_id=campaigns_id,
+                                is_shown=is_shown,
                                 dtitlecs=titcs, dtitleen=titen,
                                 ddate=datetime.datetime.strptime(ddate[:16], '%Y-%m-%d %H:%M'), ddatetz=ddate[16:] or 'Z',
                                 datatypes_id=[datatypes[datatype.encode('utf-8')] for datatype in dataset['dataTypes']],
