@@ -296,6 +296,14 @@ def __nacti_if_nic():
         session.flash = "Není načten config.js (chybí data (místa) nebo některý pomocný číselník). Je třeba jej nejprve načíst."
         redirect(URL('nacti'))
 
+def not_shown():
+    datasets = db(db.datasets.is_shown == False).select(
+        db.datasets.ALL, db.campaigns.ALL, db.places.ALL,
+        join=[db.campaigns.on(db.campaigns.id == db.datasets.campaigns_id),
+                db.places.on(db.places.id == db.campaigns.places_id)])
+    return dict(datasets=datasets)
+
+
 @auth.requires_membership('admin')
 def stahni():
     ret = __stahni(db.datasets.is_shown == True)

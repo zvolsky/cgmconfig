@@ -27,7 +27,8 @@
 </div>
 
 <p><div class="btn-group">
-    <a href="{{=URL('exportjs', 'stahni2')}}?attachment" class="btn btn-primary">
+    {{bkqueried = 'bk' if bk else ''}}
+    <a href="{{=URL('exportjs', 'stahni2', args=bkqueried)}}?attachment" class="btn btn-primary">
         Stáhni / Ulož config.js - pro {{if bk:}}zálohu{{else:}}mapserver{{pass}}
     </a>
     <a href="{{=URL('places')}}" class="btn btn-link">Zpět (Místa a kampaně)</a>

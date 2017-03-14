@@ -12,8 +12,10 @@ dt_children = db(db.dt_children).select()
 data_dict = {item.id: item.dtid for item in db(db.datatypes).select(db.datatypes.id, db.datatypes.dtid)}
 eko_dict = {item.id: item.etid for item in db(db.ekosystemtypes).select(db.ekosystemtypes.id, db.ekosystemtypes.etid)}
 
+
 @auth.requires_membership('admin')
 def stahni2():
+    bk = request.args(0) == 'bk'
     content = db(db.configfile).select(db.configfile.cfcontent).first().cfcontent
 
     important = ['baseLayers', 'dataTypes', 'ekosystemTypes', 'places']
@@ -53,14 +55,15 @@ def stahni2():
                     skipmode = True
                     level = 0
                     literal_delimiter = ''
-                    intruder = __get_intruder(name_stack, attr_delimiter)
+                    intruder = __get_intruder(name_stack, attr_delimiter, bk)
                 name_stack = ''
             else:
                 name_stack += char
             out += char
     return force_download('config.js', out, 'application/javascript')
 
-def __get_intruder(identifier, dlm):
+
+def __get_intruder(identifier, dlm, bk):
 
     part_separator = ','
     parts = []
@@ -78,22 +81,26 @@ def __get_intruder(identifier, dlm):
                  for row in db(db.ekosystemtypes).select()]
     elif identifier == 'places':
         part_separator = ',' + LINESEP
-        parts = ["%s{%stitle%s: %s,%sbaseLayer%s: \"%s\",%sextent%s: [%s, %s, %s, %s],%scampaigns%s: [%s]%s}" % (
+        parts = []
+        for row in db(db.places).select(
+                db.places.ALL, db.baselayers.baselayer,
+                left=db.baselayers.on(db.baselayers.id == db.places.baselayers_id)
+                ):
+            rendered_campaigns = __get_campaigns(row.places.id, dlm, bk)
+            if rendered_campaigns:
+                parts.append("%s{%stitle%s: %s,%sbaseLayer%s: \"%s\",%sextent%s: [%s, %s, %s, %s],%scampaigns%s: [%s]%s}" % (
                     LINESEP + 4*' ', LINESEP + 6*' ' + dlm, dlm,
                     ('{cs: \"%s\", en: \"%s\"}' % (__esc(row.places.ptitlecs), __esc(row.places.ptitleen)))
                             if row.places.ptitleen
                             else ('\"%s\"' % __esc(row.places.ptitlecs)),
                     LINESEP + 6*' ' + dlm, dlm, __esc(row.baselayers.baselayer),
                     LINESEP + 6*' ' + dlm, dlm, row.places.pextentl, row.places.pextentb, row.places.pextentr, row.places.pextentt,
-                    LINESEP + 6*' ' + dlm, dlm, __get_campaigns(row.places.id, dlm),
+                    LINESEP + 6*' ' + dlm, dlm, rendered_campaigns,
                     LINESEP + 4*' ',
-                )
-                for row in db(db.places).select(
-                    db.places.ALL, db.baselayers.baselayer,
-                    left=db.baselayers.on(db.baselayers.id == db.places.baselayers_id)
-                )]
+                ))
 
     return ' [%s]' % part_separator.join(parts)
+
 
 def __get_dt_children(datatypes_id, dlm):
     parts = []
@@ -113,24 +120,32 @@ def __get_dt_children(datatypes_id, dlm):
     else:
         return ''
 
-def __get_campaigns(places_id, dlm):
+
+def __get_campaigns(places_id, dlm, bk):
     parts = []
     for row in campaigns.find(lambda row: row.places_id == places_id):
-        parts.append(
-            "%s{%sdateRange%s: %s,%sdatasets%s: [%s]%s}" % (
-                LINESEP + 8*' ', LINESEP + 10*' ' + dlm, dlm,
-                ('[\"%s\", \"%s\"]' % (row.cdaterange.strftime('%Y-%m-%d'), row.cdaterange2.strftime('%Y-%m-%d')))
-                        if row.cdaterange2
-                        else ('\"%s\"' % row.cdaterange.strftime('%Y-%m-%d')),
-                LINESEP + 10*' ' + dlm, dlm, __get_datasets(row.id, dlm),
-                LINESEP + 8*' ',
+        rendered_datasets = __get_datasets(row.id, dlm, bk)
+        if rendered_datasets:
+            parts.append(
+                "%s{%sdateRange%s: %s,%sdatasets%s: [%s]%s}" % (
+                    LINESEP + 8*' ', LINESEP + 10*' ' + dlm, dlm,
+                    ('[\"%s\", \"%s\"]' % (row.cdaterange.strftime('%Y-%m-%d'), row.cdaterange2.strftime('%Y-%m-%d')))
+                            if row.cdaterange2
+                            else ('\"%s\"' % row.cdaterange.strftime('%Y-%m-%d')),
+                    LINESEP + 10*' ' + dlm, dlm, rendered_datasets,
+                    LINESEP + 8*' ',
+                )
             )
-        )
     return ','.join(parts)
 
-def __get_datasets(campaigns_id, dlm):
+
+def __get_datasets(campaigns_id, dlm, bk):
     parts = []
-    for row in datasets.find(lambda row: row.campaigns_id == campaigns_id):
+    if bk:
+        current_datasets = datasets.find(lambda row: row.campaigns_id == campaigns_id)
+    else:
+        current_datasets = datasets.find(lambda row: row.is_shown and row.campaigns_id == campaigns_id)
+    for row in current_datasets:
         data_parts = []
         for datatypes_id in row.datatypes_id:
             data_parts.append("'%s'" % data_dict[datatypes_id])
@@ -165,8 +180,10 @@ def __get_datasets(campaigns_id, dlm):
                 optional += __add_optional('legendUrl', '{%scs%s: "%s", %sen%s: "%s"}' % (
                             dlm, dlm, row.dlegendurlcs or '', dlm, dlm, row.dlegendurlen or ''), dlm)
         parts.append(
-            "%s{%stitle%s: %s,%sdate%s: \"%s%s\",%sdataTypes%s: %s,%sekosystemTypes%s: %s,%slayer%s: %s%s%s}" % (
-                LINESEP + 12*' ', LINESEP + 14*' ' + dlm, dlm,
+            "%s{%s%stitle%s: %s,%sdate%s: \"%s%s\",%sdataTypes%s: %s,%sekosystemTypes%s: %s,%slayer%s: %s%s%s}" % (
+                LINESEP + 12*' ',
+                (LINESEP + 14 * ' ' + dlm + 'is_shown' + dlm + ': "' + ('yes' if row.is_shown else 'no') + '",') if bk else '',
+                LINESEP + 14*' ' + dlm, dlm,
                 ('{%scs%s: \"%s\", %sen%s: \"%s\"}' % (dlm, dlm, __esc(row.dtitlecs), dlm, dlm, __esc(row.dtitleen)))
                         if row.dtitleen
                         else ('\"%s\"' % __esc(row.dtitlecs)),
@@ -180,8 +197,10 @@ def __get_datasets(campaigns_id, dlm):
         )
     return ','.join(parts)
 
+
 def __esc(txt):
     return txt.replace("'", "\\'").replace('"', '\\"')
+
 
 def __add_optional(lbl, val, dlm):
     return ',' + LINESEP + 14*' ' + dlm + lbl + dlm + ': ' + val

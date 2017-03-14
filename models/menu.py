@@ -34,7 +34,10 @@ response.menu = [
         ('datatypes', False, URL('default', 'datatypes'), []),
         ('ekosystemtypes', False, URL('default', 'ekosystemtypes'), []),
     ]),
-    ('Místa a kampaně', False, URL('default', 'places'), []),
+    ('Místa a kampaně', False, '#', [
+        ('místa a kampaně', False, URL('default', 'places'), []),
+        ('deaktivované datasety', False, URL('default', 'not_shown'), []),
+    ]),
     ('Výsledek', False, '#', [
         ('pro mapserver', False, URL('default', 'stahni'), []),
         ('pro zálohu (vč. deaktivovaných)', False, URL('default', 'stahni_bk'), []),

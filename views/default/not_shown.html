@@ -1,0 +1,15 @@
+{{extend 'layout.html'}}
+
+<div class="alert alert-info">
+    {{if datasets:}}
+        <ul>
+        {{for ds in datasets:}}
+            <li><a href="{{=URL('places', args=('places', 'campaigns.places_id', ds.places.id, 'datasets.campaigns_id', ds.campaigns.id, 'edit', 'datasets', ds.datasets.id))}}">
+                    {{=ds.places.ptitlecs}}, {{=ds.campaigns.cdaterange.strftime('%d.%m.%y')}}, {{=ds.datasets.ddate.strftime('%d.%m %H:%M')}} {{=ds.datasets.dtitlecs}}
+            </a></li>
+        {{pass}}
+        </ul>
+    {{else:}}
+        <p>Žádné datasety nejsou dočasně skryty.</p>
+    {{pass}}
+</div>
