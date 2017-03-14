@@ -16,12 +16,14 @@
 {{pass}}
 
 <div class="alert alert-info">
+    {{dds = A("Deaktivované datasety", _href=URL('not_shown'))}}
+    {{ddscnt = '(%s)' % hidden}}
     {{if bk:}}
         <p>Stažení PRO ZÁLOHU.</p>
-        <p>{{="Deaktivované datasety (%s) budou exportovány se speciálním příznakem (soubor nebude čitelný pro mapserver)." % hidden}}</p>
+        <p>{{=dds}} {{=ddscnt}} budou exportovány se speciálním příznakem (soubor nebude čitelný pro mapserver).</p>
     {{else:}}
         <p>Stažení PRO MAPSERVER.</p>
-        <p>{{="Deaktivované datasety (%s) nebudou exportovány." % hidden}}</p>
+        <p>{{=dds}} {{=ddscnt}} nebudou exportovány.</p>
     {{pass}}
     <p>{{="Bude exportováno %s datasetů." % cnt}}</p>
 </div>
