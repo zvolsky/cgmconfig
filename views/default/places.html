@@ -14,4 +14,43 @@
 <script>
     $('#w2p_query_panel').remove();
     $('label').css('text-align', 'right');
+
+    $('#datasets_datatypes_id').change(function() {
+        show_datatypes_derrived();
+    });
+
+    $(document).ready(function() {
+        show_datatypes_derrived();
+    });
+
+    function show_datatypes_derrived() {
+        var key, keyend, fld, fldid, derrived, datatypes_derrived = {};
+        $('.form-control').each(function(i, control) {
+            if (control.id.substr(0, 22) === "datasets_dt_children__") {
+                fld = control.id.substr(22);
+                keyend = fld.indexOf('_');
+                if (keyend > 0) {
+                    key = fld.substr(0, keyend);
+                    if (datatypes_derrived[key]) {
+                        datatypes_derrived[key].push(fld);
+                    } else {
+                        datatypes_derrived[key] = [fld];
+                    }
+                }
+            }
+        });   // datatypes_derrived = {hyper: ['hyper_vnir_cs', 'hyper_vnir_en', ..], termo: [...]}
+        $('#datasets_datatypes_id option').each(function(i, option) {
+            derrived = datatypes_derrived[option.text];
+            if (derrived) {
+                for (var j = 0; j < derrived.length; j++) {
+                    fldid = 'datasets_dt_children__' + derrived[j];
+                    if (option.selected) {
+                        $('#' + fldid).prop('disabled', false);
+                    } else {
+                        $('#' + fldid).prop('disabled', true);
+                    }
+                }
+            }
+        });
+    }
 </script>
