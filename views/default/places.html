@@ -45,9 +45,9 @@
                 for (var j = 0; j < derrived.length; j++) {
                     fldid = 'datasets_dt_children__' + derrived[j];
                     if (option.selected) {
-                        $('#' + fldid).prop('disabled', false);
+                        $('#' + fldid).parent().parent().show();
                     } else {
-                        $('#' + fldid).prop('disabled', true);
+                        $('#' + fldid).parent().parent().hide();
                     }
                 }
             }
