@@ -1,4 +1,5 @@
-var cgcfg = {
+var cg = {};
+cg.config = {
   "gwcUrl": "http://mapserver.czechglobe.cz/gwc/",
 //  "gwcUrl": "http://172.20.2.18/gwc/",
   "namespacePrefix": "cge",
@@ -120,7 +121,7 @@ var cgcfg = {
     {
       "title": "Bílý Kříž",
       "baseLayer": "osm",
-      "extent": [18.484, 49.474, 18.556, 49.530],
+      "extent": [18.550, 49.462, 18.557, 49.528],
       "campaigns": [
         {
           "dateRange": ["2010-10-01", "2010-10-01"],
@@ -219,32 +220,35 @@ var cgcfg = {
                 "sublayers": 'bily_kriz_ORTHO_09072013'
               },
               "spatialResolution": 0.10
-           // {
-           //   "title": "OP 11:25 0.1m_odin",
-           //   "date": "2013-10-09 12:25Z",
-           //   "dataTypes": ['orto'],
-           //   "ekosystemTypes": ['les'],
-           //   "layer": {
-           //     "type": 'gwc',
-           //     "sublayers": 'bily_kriz_ORTHO_09072013_odin'
-           //   },
-           //   "spatialResolution": 0.10
-        //  }]
-        //},
-        //{
-        //  "dateRange": ["2014-07-09", "2014-07-09"],
-        //  "datasets": [
-        //    {
-        //      "title": "louka 11:25 0.1m",
-        //     "date": "2014-07-09 11:25Z",
-        //      "dataTypes": ['orto'],
-        //      "ekosystemTypes": ['les'],
-        //      "layer": {
-        //        "type": 'gwc',
-        //        "sublayers": 'bily_kriz_louka_ORTHO_09072014'
-        //      },
-        //      "spatialResolution": 0.10
-           },
+            },
+            {
+              "is_shown": "no",
+              "title": "OP 11:25 0.1m_odin",
+              "date": "2013-10-09 12:25Z",
+              "dataTypes": ['orto'],
+              "ekosystemTypes": ['les'],
+              "layer": {
+                "type": 'gwc',
+                "sublayers": 'bily_kriz_ORTHO_09072013_odin'
+              },
+              "spatialResolution": 0.10
+          }]
+        },
+        {
+          "dateRange": ["2014-07-09", "2014-07-09"],
+          "datasets": [
+            {
+              "is_shown": "no",
+              "title": "louka 11:25 0.1m",
+              "date": "2014-07-09 11:25Z",
+              "dataTypes": ['orto'],
+              "ekosystemTypes": ['les'],
+              "layer": {
+                "type": 'gwc',
+                "sublayers": 'bily_kriz_louka_ORTHO_09072014'
+              },
+              "spatialResolution": 0.10
+            },
             {
               "title": "les 11:25 0.1m",
               "date": "2014-07-09 11:25Z",
@@ -303,17 +307,18 @@ var cgcfg = {
         {
           "dateRange": ["2012-10-09", "2012-10-09"],
           "datasets": [
-            //{
-            //  "title": "OP 09:25 0.2m",
-            //  "date": "2010-10-09 09:25Z",
-            //  "dataTypes": ['orto'],
-            //  "ekosystemTypes": ['les'],
-            //  "layer": {
-            //    "type": 'gwc',
-            //    "sublayers": 'breznik_ORTHO_09072010'
-            //  },
-            //  "spatialResolution": 0.20
-            //},
+            {
+              "is_shown": "no",
+              "title": "OP 09:25 0.2m",
+              "date": "2010-10-09 09:25Z",
+              "dataTypes": ['orto'],
+              "ekosystemTypes": ['les'],
+              "layer": {
+                "type": 'gwc',
+                "sublayers": 'breznik_ORTHO_09072010'
+              },
+              "spatialResolution": 0.20
+            },
             {
               "title": "OP 11:30 5 m",
               "date": "2012-10-27 11:30Z",
@@ -341,7 +346,7 @@ var cgcfg = {
           "dateRange": ["2010-10-08", "2010-10-08"],
           "datasets": [
             {
-              "title": {"cs": "LiDAR", "en": "LiDAR"},
+              "title": {"cs": "LD 11:45 1 b/m²", "en": "LD 11:45 1 p/m²"},
               "date": "2010-10-08 11:45Z",
               "dataTypes": ['lidar'],
               "ekosystemTypes": ['les'],
@@ -363,7 +368,7 @@ var cgcfg = {
           "dateRange": ["2012-10-27", "2012-10-27"],
           "datasets": [
             {
-              "title": {"cs": "Orthofoto", "en": "Orthophoto"},
+              "title": "OP 09:45 0.2m",
               "date": "2012-10-27 09:45Z",
               "dataTypes": ['orto'],
               "ekosystemTypes": ['les'],
@@ -424,27 +429,10 @@ var cgcfg = {
         {
           "dateRange": ["2015-07-07", "2015-07-07"],
           "datasets": [
-
             {
-              "title": "HS VNIR",
+              "title": "SASI 10:15 2.0 m",
               "date": "2015-07-07 11:00Z",
-              "dataTypes": ['hyper-vnir'],
-              "ekosystemTypes": ['město'],
-              "layer": {
-                "type": 'gwc',
-                "sublayers": 'Brno_CASI_2_20150707'
-              },
-              "sensor": "CASI-1500",
-              "spatialResolution": 0.80,
-              "spectralRange": [365.0, 1050.0],
-              "spectralResolution": 15.000,
-              "numberOfBands": 48,
-              "description": "Kompozice v pravých barvách z dat senzoru CASI, který snímá ve viditelné a blízké infračervené části spektra."
-            },
-            {
-              "title": "HS SWIR",
-              "date": "2015-07-07 11:00Z",
-              "dataTypes": ['them','hyper-swir'],
+              "dataTypes": ['hyper','them'],
               "ekosystemTypes": ['město'],
               "layer": {
                 "type": 'gwc',
@@ -458,23 +446,36 @@ var cgcfg = {
               "description": "Kompozice v nepravých barvách z dat senzoru SASI-600, jenž snímá ve střední infračervené části spektra a je citlivý i na obsah vody."
             },
             {
-              "title": "HS LWIR",
+              "title": "CASI 10:15 0.8 m",
               "date": "2015-07-07 11:00Z",
-              "dataTypes": ['them','termo-lwir'],
+              "dataTypes": ['hyper'],
+              "ekosystemTypes": ['město'],
+              "layer": {
+                "type": 'gwc',
+                "sublayers": 'Brno_CASI_2_20150707'
+              },
+              "spatialResolution": 0.80,
+              "spectralRange": [365.0, 1050.0],
+              "spectralResolution": 15.000,
+              "numberOfBands": 48,
+              "description": "Kompozice v pravých barvách z dat senzoru CASI, který snímá ve viditelné a blízké infračervené části spektra."
+            },
+            {
+              "title": "TASI 10:15 2 m",
+              "date": "2015-07-07 11:00Z",
+              "dataTypes": ['termo','them'],
               "ekosystemTypes": ['město'],
               "layer": {
                 "type": 'gwc',
                 "sublayers": 'Brno_TASI_2_20160707'
               },
-              "sensor": "TASI-600",
               "spatialResolution": 2.00,
               "spectralRange": [8000.0, 11500.0],
-              "spectralResolution": 110.00,
               "numberOfBands": 32,
               "description": "Mapa povrchových teplot změřených senzorem TASI v horkém letním dni. V červené části stupnice lze porovnávat rozpálenost silnic a střech domů. V modré části je naopak vidět ochlazující efekt vyšší vegetace a také stíny budov.",
               "legendUrl": {
-                'cs': 'static/cfg/legend/Brno_TASI.png',
-                'en': 'static/cfg/legend/Brno_TASI_en.png'
+                'cs': '_cfg/legend/Brno_TASI.png',
+                'en': '_cfg/legend/Brno_TASI_en.png'
               }
             }]
         }]
@@ -1298,68 +1299,37 @@ var cgcfg = {
           "dateRange": ["2014-06-09", "2014-06-09"],
           "datasets": [
             {
-              "title": "HS VNIR",
+              "title": "HS 08:15 1 m",
               "date": "2014-06-09 08:15Z",
-              "dataTypes": ['hyper-vnir'],
+              "dataTypes": ['hyper'],
               "ekosystemTypes": ['agro'],
               "layer": {
                 "type": 'gwc',
                 "sublayers": 'polkovice_CASI_09062014'
               },
-              "spatialResolution": 1.0,
+              "spatialResolution": 1.00,
               "spectralRange": [365.0, 1050.0],
               "spectralResolution": 7.000,
               "numberOfBands": 96
-            },
-            {
-              "title":{"cs": 'Termální data', "en": 'Thermal data'},
-              "date": "2014-06-09 08:15Z",
-              "dataTypes": ['termo'],
-              "ekosystemTypes": ['agro'],
-              "spatialResolution": 2.7,
-              "numberOfBands": 1,
             }]
         },
         {
           "dateRange": ["2015-06-05", "2015-06-05"],
           "datasets": [
             {
-              "title": "HS VNIR",
+              "title": "HS 08:15 1 m",
               "date": "2015-06-05 08:15Z",
-              "dataTypes": ['hyper-vnir'],
+              "dataTypes": ['hyper','termo'],
               "ekosystemTypes": ['agro'],
               "layer": {
                 "type": 'gwc',
                 "sublayers": 'polkovice_CASI_05062015'
               },
-              "sensor": "CASI-1500",
-              "spatialResolution": 1.0,
+              "spatialResolution": 1.00,
               "spectralRange": [365.0, 1050.0],
               "spectralResolution": 7.000,
               "numberOfBands": 96
-            },
-            {
-              "title": "HS SWIR",
-              "date": "2015-06-05 08:15Z",
-              "dataTypes": ['hyper-swir'],
-              "ekosystemTypes": ['agro'],
-              "sensor": "SASI-600",
-              "spatialResolution": 2.5,
-              "spectralRange": [950.0, 2450.0],
-              "spectralResolution": 15.000,
-              "numberOfBands": 100,
-            },
-            {
-             "title": "HS LWIR",
-              "date": "2015-06-05 08:15Z",
-              "dataTypes": ['termo-lwir'],
-              "ekosystemTypes": ['agro'],
-              "sensor": "TASI-600",
-              "spatialResolution": 2.5,
-              "spectralRange": [8000.0, 11500.0],
-              "spectralResolution": 110.000,
-              "numberOfBands": 32,
-              }]
+            }]
         }]
     },
 
@@ -1758,11 +1728,11 @@ var cgcfg = {
             }]
         },
         {
-          "dateRange": ["2010-07-11", "2010-07-11"],
+          "dateRange": ["2010-07-11", "2010-07-12"],
           "datasets": [
             {
-              "title": "HS VNIR 1m",
-              "date": "2010-07-11 08:50Z",
+              "title": "HS 09:50 1.0m",
+              "date": "2010-07-12 08:50Z",
               "dataTypes": ['hyper'],
               "ekosystemTypes": ['agro'],
               "layer": {
@@ -1773,9 +1743,13 @@ var cgcfg = {
               "spectralRange": [400.0, 980.0],
               "spectralResolution": 4.730,
               "numberOfBands": 260
-            },
+            }]
+        },
+        {
+          "dateRange": ["2010-07-11", "2010-07-11"],
+          "datasets": [
             {
-              "title": "HS VNIR 5.5m",
+              "title": "HS 10:43 1.0m",
               "date": "2010-07-11 10:43Z",
               "dataTypes": ['hyper'],
               "ekosystemTypes": ['voda'],
@@ -1783,12 +1757,11 @@ var cgcfg = {
                 "type": 'gwc',
                 "sublayers": 'trebon_1_AISA_11072010'
               },
-              "spatialResolution": 5.50,
+              "spatialResolution": 1.00,
               "spectralRange": [400.0, 980.0],
               "spectralResolution": 2.500,
               "numberOfBands": 260
-            }
-          ]
+            }]
         },
         {
           "dateRange": ["2010-11-05", "2010-11-05"],
@@ -2129,5 +2102,3 @@ var cgcfg = {
         }]
     }]
 };
-
-module.exports = cgcfg;
