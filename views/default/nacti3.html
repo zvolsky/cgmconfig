@@ -7,10 +7,13 @@
 {{=msg[1]}}
 
 <script>
+    module = {};    // required after 20170614
     //$('textarea').attr('disabled', 'disabled');
 
     {{=XML(js)}}
 
+    var cg = {};    // required after 20170614
+    cg.config = cgcfg;    // required after 20170614
     var dt = JSON.stringify(cg.config.dataTypes);
     var et = JSON.stringify(cg.config.ekosystemTypes);
     var pl = JSON.stringify(cg.config.places);
