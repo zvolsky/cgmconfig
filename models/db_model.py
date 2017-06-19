@@ -41,7 +41,7 @@ db.define_table('baselayers',
         )
 
 db.define_table('datatypes',
-        Field('dt_parent_id', 'reference datatypes', writable=False,
+        Field('dt_parent_id', 'reference datatypes',
               ondelete='CASCADE',
               label='nadřazený', comment='skupina (nadřazený dataType)'),
         Field('dtid', 'string', length=32, requires=IS_NOT_EMPTY_(), label='id',
@@ -52,6 +52,7 @@ db.define_table('datatypes',
               comment='anglický popis / english description'),
         format=lambda r: r.dtid
         )
+db.datatypes.dt_parent_id.requires = IS_EMPTY_OR(IS_IN_DB_(db(db.datatypes.dt_parent_id == None), db.datatypes.id, '%(dtid)s'))
 
 '''obsolete: nově to přebírají datatypes s dt_parent_id != None
 db.define_table('dt_children',

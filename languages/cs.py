@@ -347,6 +347,7 @@
 'Modules': 'Moduly',
 'modules': 'moduly',
 'My Sites': 'Správa aplikací',
+'nadřazený': 'nadřazený',
 'Name': 'Jméno',
 'Načíst zadaný soubor': 'Načíst zadaný soubor',
 'New %(entity)s': 'New %(entity)s',
