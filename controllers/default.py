@@ -101,7 +101,8 @@ def nacti3():
             datatypes_id = db.datatypes.insert(dtid=datatype['id'], dtcs=tit['cs'], dten=tit['en'])
             for child in children:
                 tit = child['title']
-                db.dt_children[0] = dict(datatypes_id=datatypes_id, dtchid=child['id'], dtchcs=tit['cs'], dtchen=tit['en'])
+                db.datatypes.insert(dt_parent_id=datatypes_id, dtid=child['id'], dtcs=tit['cs'], dten=tit['en'])
+                # obsolete: db.dt_children[0] = dict(datatypes_id=datatypes_id, dtchid=child['id'], dtchcs=tit['cs'], dtchen=tit['en'])
         for ekosystemtype in simplejson.loads(request.vars.JSONekosystemtypes):
             tit = ekosystemtype['title']
             db.ekosystemtypes[0] = dict(etid=ekosystemtype['id'], etcs=tit['cs'], eten=tit['en'])
@@ -112,6 +113,10 @@ def nacti3():
 
         datatypes = db(db.datatypes).select(db.datatypes.id, db.datatypes.dtid)
         datatypes = {datatype.dtid: datatype.id for datatype in datatypes}
+        '''obsolete, nově datatypes s hierarchií datatypes.dt_parent_id 
+        children = db(db.dt_children).select(db.dt_children.id, db.dt_children.dtchid)
+        children = {children.dtid: child.id for child in children}
+        '''
 
         ekosystemtypes = db(db.ekosystemtypes).select(db.ekosystemtypes.id, db.ekosystemtypes.etid)
         ekosystemtypes = {ekosystemtype.etid: ekosystemtype.id for ekosystemtype in ekosystemtypes}

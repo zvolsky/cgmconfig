@@ -41,6 +41,9 @@ db.define_table('baselayers',
         )
 
 db.define_table('datatypes',
+        Field('dt_parent_id', 'reference datatypes', writable=False,
+              ondelete='CASCADE',
+              label='nadřazený', comment='skupina (nadřazený dataType)'),
         Field('dtid', 'string', length=32, requires=IS_NOT_EMPTY_(), label='id',
               comment='označení položky'),
         Field('dtcs', 'string', length=128, requires=IS_NOT_EMPTY_(), label='cs',
@@ -50,6 +53,7 @@ db.define_table('datatypes',
         format=lambda r: r.dtid
         )
 
+'''obsolete: nově to přebírají datatypes s dt_parent_id != None
 db.define_table('dt_children',
         Field('datatypes_id', db.datatypes, requires=IS_NOT_EMPTY_(), writable=False,
               ondelete='CASCADE',
@@ -64,6 +68,7 @@ db.define_table('dt_children',
         plural='children',
         format=lambda r: r.dtchid
         )
+'''
 
 db.define_table('ekosystemtypes',
         Field('etid', 'string', length=32, requires=IS_NOT_EMPTY_(), label='id',
@@ -162,6 +167,7 @@ ds_fields = [
     Field('dlegendurlen', 'string', length=255, label='legendUrl en',
           comment='rastrová legenda anglicky / raster legend in english (nepovinné)'),
 ]
+'''obsolete, nově jen datatypes s hierarchií datatypes.dt_parent_id
 dt_children = db(db.dt_children).select()
 dtchprefix = 'dt_children__'
 for pos, fld in enumerate(ds_fields):
@@ -172,6 +178,7 @@ for pos, fld in enumerate(ds_fields):
             ds_fields.insert(pos + 2, Field(dtchprefix + dtchid + '_en', label=dtch.dtchid + ' (en)', comment=dtch.dtchen))
             pos += 2
         break
+'''
 db.define_table('datasets',
         *ds_fields,
         singular='dataset', plural='datasets'

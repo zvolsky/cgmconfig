@@ -7,7 +7,7 @@ LINESEP = '\r\n'  # pro vystupni config.js
 
 campaigns = db(db.campaigns).select()
 datasets = db(db.datasets).select()
-dt_children = db(db.dt_children).select()
+datatypes = db(db.datatypes).select()  # obsolete, nově přímo v datatypes: dt_children = db(db.dt_children).select()
 
 data_dict = {item.id: item.dtid for item in db(db.datatypes).select(db.datatypes.id, db.datatypes.dtid)}
 eko_dict = {item.id: item.etid for item in db(db.ekosystemtypes).select(db.ekosystemtypes.id, db.ekosystemtypes.etid)}
@@ -74,7 +74,7 @@ def __get_intruder(identifier, dlm, bk):
     elif identifier == 'dataTypes':
         parts = [LINESEP + 4*' ' + types_mask % (
                     dlm, dlm, __esc(row.dtid), dlm, dlm, dlm, dlm, __esc(row.dtcs), dlm, dlm, __esc(row.dten), __get_dt_children(row.id, dlm))
-                 for row in db(db.datatypes).select()]
+                 for row in db(db.datatypes.dt_parent_id == None).select()]
     elif identifier == 'ekosystemTypes':
         parts = [LINESEP + 4*' ' + types_mask % (
                     dlm, dlm, __esc(row.etid), dlm, dlm, dlm, dlm, __esc(row.etcs), dlm, dlm, __esc(row.eten), '')
@@ -104,15 +104,15 @@ def __get_intruder(identifier, dlm, bk):
 
 def __get_dt_children(datatypes_id, dlm):
     parts = []
-    for row in dt_children.find(lambda row: row.datatypes_id == datatypes_id):
+    for row in datatypes.find(lambda row: row.dt_parent_id == datatypes_id):
         parts.append(
             "%s{%sid%s: %s, %stitle%s: %s}" % (
                 LINESEP + 8 * ' ', dlm, dlm,
-                ("'%s'" % __esc(row.dtchid)),
+                ("'%s'" % __esc(row.dtid)),
                 dlm, dlm,
-                ('{cs: \"%s\", en: \"%s\"}' % (__esc(row.dtchcs), __esc(row.dtchen)))
-                if row.dtchen
-                else ('\"%s\"' % __esc(row.dtchcs)),
+                ('{cs: \"%s\", en: \"%s\"}' % (__esc(row.dtcs), __esc(row.dten)))
+                if row.dten
+                else ('\"%s\"' % __esc(row.dtcs)),
             )
         )
     if parts:
