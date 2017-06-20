@@ -143,7 +143,7 @@ ds_fields = [
           requires=IS_IN_DB_(db, db.ekosystemtypes.id, '%(etid)s', multiple=(1, 9999999)),
           ondelete='RESTRICT',
           label='ekosystemtypes', comment=Ciselnik.ctrl),
-    Field('dlayer', 'string', length=128, requires=IS_NOT_EMPTY_(), label='layer/sublayer',
+    Field('dlayer', 'string', length=128, label='layer/sublayer',
           comment='sublayer pro layer, příklad: kopaniny_dehtare_AISA_29062010'),
     Field('dspatialresolution', 'decimal(5,2)', label='spatialResolution',
           comment='spatialResolution v [m], např. 2.5 (nepovinné)'),

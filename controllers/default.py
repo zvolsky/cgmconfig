@@ -184,13 +184,14 @@ def nacti3():
                         elif len(dspectralresolution) == 0:
                             dspectralresolution = [None, None]
 
+                        dlayer = dataset.get('layer')
                         db.datasets.insert(campaigns_id=campaigns_id,
                                 is_shown=is_shown,
                                 dtitlecs=titcs, dtitleen=titen,
                                 ddate=datetime.datetime.strptime(ddate[:16], '%Y-%m-%d %H:%M'), ddatetz=ddate[16:] or 'Z',
                                 datatypes_id=[datatypes[datatype.encode('utf-8')] for datatype in dataset['dataTypes']],
                                 ekosystemtypes_id=[ekosystemtypes[ekosystemtype.encode('utf-8')] for ekosystemtype in dataset['ekosystemTypes']],
-                                dlayer=dataset['layer']['sublayers'],
+                                dlayer=dlayer['sublayers'] if dlayer else None,
                                 dspatialresolution=dataset.get('spatialResolution'),
                                 dpointspermeter=dataset.get('pointsPerMeter'),
                                 dspectralrangefrom=dspectralrange[0], dspectralrangeto=dspectralrange[1],

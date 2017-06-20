@@ -1316,10 +1316,6 @@ var cgcfg = {
               "date": "2014-06-09 08:15Z",
               "dataTypes": ['termo'],
               "ekosystemTypes": ['agro'],
-              "layer": {
-                "type": 'gwc',
-                "sublayers": 'polkovice_CASI_09062014'
-              },
               "spatialResolution": 2.7,
               "numberOfBands": 1,
             }]
@@ -1347,10 +1343,6 @@ var cgcfg = {
               "date": "2015-06-05 08:15Z",
               "dataTypes": ['hyper-swir'],
               "ekosystemTypes": ['agro'],
-              "layer": {
-                "type": 'gwc',
-                "sublayers": 'polkovice_CASI_09062014'
-              },
               "sensor": "SASI-600",
               "spatialResolution": 2.5,
               "spectralRange": [950.0, 2450.0],
@@ -1362,10 +1354,6 @@ var cgcfg = {
               "date": "2015-06-05 08:15Z",
               "dataTypes": ['termo-lwir'],
               "ekosystemTypes": ['agro'],
-              "layer": {
-                "type": 'gwc',
-                "sublayers": 'polkovice_CASI_09062014'
-              },
               "sensor": "TASI-600",
               "spatialResolution": 2.5,
               "spectralRange": [8000.0, 11500.0],

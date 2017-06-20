@@ -152,7 +152,10 @@ def __get_datasets(campaigns_id, dlm, bk):
         eko_parts = []
         for ekosystemtypes_id in row.ekosystemtypes_id:
             eko_parts.append("'%s'" % eko_dict[ekosystemtypes_id])
-        layer = '{' + LINESEP + 16*' ' + dlm + "type" + dlm + ": 'gwc'," + LINESEP + 16*' ' + dlm + "sublayers" + dlm + ": '" + __esc(row.dlayer) + "'" + LINESEP + 14*' ' + '}'
+        if row.dlayer:
+            layer = '{' + LINESEP + 16*' ' + dlm + "type" + dlm + ": 'gwc'," + LINESEP + 16*' ' + dlm + "sublayers" + dlm + ": '" + __esc(row.dlayer) + "'" + LINESEP + 14*' ' + '}'
+        else:
+            layer = None
         optional = ''
         if row.dspatialresolution:
             optional += __add_optional('spatialResolution', '%s' % row.dspatialresolution, dlm)
@@ -180,7 +183,7 @@ def __get_datasets(campaigns_id, dlm, bk):
                 optional += __add_optional('legendUrl', '{%scs%s: "%s", %sen%s: "%s"}' % (
                             dlm, dlm, row.dlegendurlcs or '', dlm, dlm, row.dlegendurlen or ''), dlm)
         parts.append(
-            "%s{%s%stitle%s: %s,%sdate%s: \"%s%s\",%sdataTypes%s: %s,%sekosystemTypes%s: %s,%slayer%s: %s%s%s}" % (
+            "%s{%s%stitle%s: %s,%sdate%s: \"%s%s\",%sdataTypes%s: %s,%sekosystemTypes%s: %s%s%s%s}" % (
                 LINESEP + 12*' ',
                 (LINESEP + 14 * ' ' + dlm + 'is_shown' + dlm + ': "' + ('yes' if row.is_shown else 'no') + '",') if bk else '',
                 LINESEP + 14*' ' + dlm, dlm,
@@ -190,7 +193,7 @@ def __get_datasets(campaigns_id, dlm, bk):
                 LINESEP + 14*' ' + dlm, dlm, row.ddate.strftime('%Y-%m-%d %H:%M'), row.ddatetz or 'Z',
                 LINESEP + 14*' ' + dlm, dlm, '[%s]' % ','.join(data_parts),
                 LINESEP + 14*' ' + dlm, dlm, '[%s]' % ','.join(eko_parts),
-                LINESEP + 14*' ' + dlm, dlm, layer,
+                ',%slayer%s: %s' % (LINESEP + 14*' ' + dlm, dlm, layer) if layer else '',
                 optional,
                 LINESEP + 12*' ',
             )
